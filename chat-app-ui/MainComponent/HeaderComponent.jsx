@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Breadcrumb, theme } from "antd";
 import { Header } from "antd/es/layout/layout";
 import AvatarComponent from "../SideComponent/AvatarComponent";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { ItemContext } from "../SideComponent/LayoutConfigComponent";
 
 export const HeaderComponent = ({ userInfoHeader }) => {
   const {
@@ -10,11 +13,26 @@ export const HeaderComponent = ({ userInfoHeader }) => {
 
   const { userId } = useParams();
 
-  // Find the user info based on userId
-  const userInfo = userInfoHeader.find((user) => user.id === userId) || {};
-  const name = userInfo.name; // Ví dụ: "Phạm Tuấn Linh"
-  const firstLetter = name.charAt(0); // "P"
-  
+  // Hàm tìm user theo id
+  const getUserNameById = (userId) => {
+    const user = userInfoHeader.find((user) => user.id === userId);
+    return user ? user.name : null;
+  };
+
+  // Tìm tên user dựa trên userId
+  const userNameFullName = getUserNameById(userId);
+  const style = {
+    width: "10px",
+    height: "10px",
+    backgroundColor: "#4caf50",
+    borderRadius: "50%",
+    display: "inline-block",
+    marginLeft:"5px"
+  };
+
+  const data = useContext(ItemContext);
+  console.log('data :>> ', data);
+
   return (
     <Header
       style={{
@@ -30,14 +48,31 @@ export const HeaderComponent = ({ userInfoHeader }) => {
       >
         <Breadcrumb.Item>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <AvatarComponent
-              icon={firstLetter}
-              size={10}
-              color={"orange"}
-            />
-            <p style={{ margin: "0 0 0 4px" }}>
-              {userInfo.name || "No Name"} (đang hoạt động)
-            </p>
+            {userNameFullName ? (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "2px",
+                  }}
+                >
+                  <AvatarComponent
+                    icon={userNameFullName.charAt(0)}
+                    size={10}
+                    color={"orange"}
+                  />
+                  <p style={{ margin: "0 3px 0 4px" }}>
+                    <b>{userNameFullName || "No Name"}</b>
+                    <div style={style}></div>
+                  </p>
+                </div>
+              </>
+            ) : (
+              <p style={{ margin: "0 0 0 4px" }}>
+                <b>Không tìm thấy tin nhắn người dùng có mã : {userId}</b>
+              </p>
+            )}
           </div>
         </Breadcrumb.Item>
       </Breadcrumb>

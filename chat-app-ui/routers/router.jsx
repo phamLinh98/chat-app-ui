@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorComponent from "../SideComponent/ErrorComponent";
 import LayoutComponent from "../MainComponent/LayoutComponent";
 import { ContentComponent } from "../MainComponent/ContentComponent";
 
@@ -11,7 +10,7 @@ export const rootConfig = [
       {
         path: "chat/:userId",
         element: <ContentComponent />,
-      }
+      },
     ],
   },
 ];
