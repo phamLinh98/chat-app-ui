@@ -2,13 +2,13 @@
 import { useContext, useState } from "react";
 import { Layout } from "antd";
 import { DashboardComponent } from "./DashboardComponent";
-import { Outlet } from "react-router-dom";
 import { HeaderComponent } from "./HeaderComponent";
 import {
   ItemContext,
   LayoutConfigComponent,
 } from "../SideComponent/LayoutConfigComponent";
 import { FooterComponent } from "./FooterComponent";
+import { Outlet } from "react-router-dom";
 const { Sider } = Layout;
 
 const loginUser = {
