@@ -40,6 +40,7 @@ const LoginComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     const user = listUser.find(
       (u) => u.username === username && u.password === password
     );
