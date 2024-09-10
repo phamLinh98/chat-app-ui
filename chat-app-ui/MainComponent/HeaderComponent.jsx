@@ -27,11 +27,11 @@ export const HeaderComponent = ({ userInfoHeader }) => {
     backgroundColor: "#4caf50",
     borderRadius: "50%",
     display: "inline-block",
-    marginLeft:"5px"
+    marginLeft: "5px",
   };
 
   const data = useContext(ItemContext);
-  console.log('data :>> ', data);
+  console.log("data :>> ", data);
 
   return (
     <Header
@@ -70,7 +70,13 @@ export const HeaderComponent = ({ userInfoHeader }) => {
               </>
             ) : (
               <p style={{ margin: "0 0 0 4px" }}>
-                <b>Không tìm thấy tin nhắn người dùng có mã : {userId}</b>
+                {userId !== undefined ? (
+                  <b>Không tìm thấy tin nhắn người dùng có mã : {userId}</b>
+                ) : (
+                  <h3 style={{ marginBottom: "4px" }}>
+                    Chào mừng bạn , Hãy bắt đầu nhắn tin với bạn bè nào
+                  </h3>
+                )}
               </p>
             )}
           </div>

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import ButtonComponent from "../SideComponent/ButtonComponent";
+import { Flex } from "antd";
+import FormComponent from "../SideComponent/FormComponent";
 import.meta.env.VITE_DOMAIN;
 
 const listUser = [
@@ -35,12 +38,11 @@ const LoginComponent = () => {
         navigate("/", { replace: true });
       }
     }
-    return ()=> {console.log('Login Thành Công');}
   }, [navigate, secretKey]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const user = listUser.find(
       (u) => u.username === username && u.password === password
     );
@@ -48,7 +50,6 @@ const LoginComponent = () => {
     if (user) {
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();
       localStorage.setItem("isAuthenticated", encryptedAuth);
-      // Redirect to the dashboard and replace history
       navigate("/", {
         replace: true,
         state: { username: user.nameshow, id: user.id },
@@ -67,50 +68,39 @@ const LoginComponent = () => {
         textAlign: "left",
       }}
     >
-      <h2>Proterial Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Tên đăng nhập:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label>Mật khẩu: </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
-          />
-        </div>
-        <button
-          type="submit"
-          style={{
-            padding: "10px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            borderRadius: "15px",
-          }}
-        >
-          Login
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate("/signin")}
-          style={{
-            padding: "10px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            borderRadius: "15px",
-          }}
-        >
-          Sign-In
-        </button>
-      </form>
+      <FormComponent>
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Tên đăng nhập:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <label>Mật khẩu: </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
+            />
+          </div>
+          <Flex gap="5px" wrap>
+            <ButtonComponent
+              name={"Login"}
+              typeSubmit={"submit"}
+              type={"primary"}
+            />
+            <ButtonComponent
+              name={"Signin"}
+              typeSubmit={() => alert("Disabled")}
+            />
+          </Flex>
+        </form>
+      </FormComponent>
     </div>
   );
 };

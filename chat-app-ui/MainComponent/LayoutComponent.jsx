@@ -66,7 +66,7 @@ export const LayoutComponentPassing = () => {
         <div className="demo-logo-vertical" />
         <DashboardComponent chattingUsers={userInfoListAfterFlat} />
       </Sider>
-      <Layout>
+      <Layout> 
         <HeaderComponent userInfoHeader={userInfoListAfterFlat} />
         <Outlet />
         <FooterComponent />
