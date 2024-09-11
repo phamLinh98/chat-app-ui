@@ -3,19 +3,38 @@ import { Breadcrumb, theme } from "antd";
 import { Header } from "antd/es/layout/layout";
 import AvatarComponent from "../SideComponent/AvatarComponent";
 import { useParams } from "react-router-dom";
+import { ItemContext } from "./LayoutComponent";
 import { useContext } from "react";
-import { ItemContext } from "../SideComponent/LayoutConfigComponent";
 
-export const HeaderComponent = ({ userInfoHeader }) => {
+export const HeaderComponent = ({ loginUser }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   const { userId } = useParams();
+  const data = useContext(ItemContext);
+  const { info, chat } = data.itemsData[0].children[0];
+  // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
+  const currentChats = chat.filter((conversation) =>
+    conversation.user.includes(loginUser.name)
+  );
+
+  const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
+    return conversation.user
+      .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại
+      .map((otherUserName) => {
+        const userInfo = info.find((user) => user.name === otherUserName);
+        return {
+          name: otherUserName,
+          avatar: userInfo?.avatar || "default-avatar",
+          id: userInfo?.id,
+        };
+      });
+  });
 
   // Hàm tìm user theo id
   const getUserNameById = (userId) => {
-    const user = userInfoHeader.find((user) => user.id === userId);
+    const user = userInfoListAfterFlat.find((user) => user.id === userId);
     return user ? user.name : null;
   };
 
@@ -29,9 +48,6 @@ export const HeaderComponent = ({ userInfoHeader }) => {
     display: "inline-block",
     marginLeft: "5px",
   };
-
-  const data = useContext(ItemContext);
-  console.log("data :>> ", data);
 
   return (
     <Header

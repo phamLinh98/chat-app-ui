@@ -1,28 +1,46 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import ButtonComponent from "../SideComponent/ButtonComponent";
+import {
+  ButtonLoginComponent,
+  ButtonSignInComponent,
+} from "../SideComponent/ButtonComponent";
 import { Flex } from "antd";
 import FormComponent from "../SideComponent/FormComponent";
 import.meta.env.VITE_DOMAIN;
 
 const listUser = [
   {
-    id: 1877,
-    username: "admin",
+    id: 1000,
+    name: "admin",
     nameshow: "Administrator",
     password: "password",
+    avatar: "123",
+    department: "IT",
+    job: "employee",
   },
   {
     id: 1878,
-    username: "Hazuki",
+    name: "Hazuki",
     nameshow: "Hazuki",
     password: "Hazuki",
+    avatar: "123",
+    department: "IT",
+    job: "employee",
+  },
+  {
+    id: 1877,
+    name: "quachtinh123",
+    nameshow: "Phạm Tuấn Linh",
+    password: "quachtinh123",
+    avatar: "123",
+    department: "IT",
+    job: "employee",
   },
 ];
 
 const LoginComponent = () => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const secretKey = import.meta.env.VITE_DOMAIN;
@@ -44,7 +62,7 @@ const LoginComponent = () => {
     e.preventDefault();
 
     const user = listUser.find(
-      (u) => u.username === username && u.password === password
+      (u) => u.name === name && u.password === password
     );
 
     if (user) {
@@ -52,7 +70,12 @@ const LoginComponent = () => {
       localStorage.setItem("isAuthenticated", encryptedAuth);
       navigate("/", {
         replace: true,
-        state: { username: user.nameshow, id: user.id },
+        loginInfo: {
+          nameshow: user.nameshow,
+          id: user.id,
+          namelogin: name,
+          avatar: user.avatar,
+        },
       });
     } else {
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
@@ -74,8 +97,8 @@ const LoginComponent = () => {
             <label>Tên đăng nhập:</label>
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
             />
           </div>
@@ -89,12 +112,12 @@ const LoginComponent = () => {
             />
           </div>
           <Flex gap="5px" wrap>
-            <ButtonComponent
+            <ButtonLoginComponent
               name={"Login"}
               typeSubmit={"submit"}
               type={"primary"}
             />
-            <ButtonComponent
+            <ButtonSignInComponent
               name={"Signin"}
               typeSubmit={() => alert("Disabled")}
             />

@@ -1,15 +1,228 @@
-/* eslint-disable react/prop-types */
-import { useContext, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { createContext, useContext, useState } from "react";
 import { Layout } from "antd";
 import { DashboardComponent } from "./DashboardComponent";
 import { HeaderComponent } from "./HeaderComponent";
-import {
-  ItemContext,
-  LayoutConfigComponent,
-} from "../SideComponent/LayoutConfigComponent";
 import { FooterComponent } from "./FooterComponent";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import image from "../src/assets/images/1.jpeg";
+import { PieChartOutlined } from "@ant-design/icons";
 const { Sider } = Layout;
+
+const itemsData = [
+  {
+    label: "Nhắn tin",
+    key: "1",
+    icon: <PieChartOutlined />,
+    children: [
+      {
+        info: [
+          {
+            id: "1877",
+            name: "Phạm Tuấn Linh",
+            avatar: image,
+            department: "IT",
+            job: "employee",
+          },
+          {
+            id: "1878",
+            name: "Izuka Namiho",
+            avatar: image,
+            department: "HR",
+            job: "employee",
+          },
+          {
+            id: "1879",
+            name: "Tôn Ngộ Không",
+            avatar: image,
+            department: "HR",
+            job: "employee",
+          },
+          {
+            id: "1880",
+            name: "Hàn Bảo Quân",
+            avatar: image,
+            department: "HR",
+            job: "employee",
+          },
+          {
+            id: "1881",
+            name: "Doãn Trí Bình",
+            avatar: image,
+            department: "HR",
+            job: "employee",
+          },
+          {
+            id: "1882",
+            name: "Kawaguchi Satoshi",
+            avatar: image,
+            content: "Hello Rin-san",
+            time: 1111,
+          },
+        ],
+        chat: [
+          {
+            user: ["Phạm Tuấn Linh", "Izuka Namiho"],
+            contents: [
+              {
+                id: "1877",
+                name: "Phạm Tuấn Linh",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 1111,
+              },
+              {
+                id: "1877",
+                name: "Phạm Tuấn Linh",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 2222,
+              },
+              {
+                id: "1878",
+                name: "Izuka Namiho",
+                avatar: image,
+                content: "Hello Rin-san",
+                time: 1111,
+              },
+            ],
+          },
+          {
+            user: ["Phạm Tuấn Linh", "Hàn Bảo Quân"],
+            contents: [
+              {
+                id: "1877",
+                name: "Phạm Tuấn Linh",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 1111,
+              },
+              {
+                id: "1877",
+                name: "Phạm Tuấn Linh",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 2222,
+              },
+              {
+                id: "1880",
+                name: "Hàn Bảo Quân",
+                avatar: image,
+                content: "Hello Rin-san",
+                time: 1111,
+              },
+            ],
+          },
+          {
+            user: ["Tôn Ngộ Không", "Izuka Namiho"],
+            contents: [
+              {
+                id: "1879",
+                name: "Tôn Ngộ Không",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 1111,
+              },
+              {
+                id: "1879",
+                name: "Tôn Ngộ Không",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 2222,
+              },
+              {
+                id: "1878",
+                name: "Izuka Namiho",
+                avatar: image,
+                content: "Hello Rin-san",
+                time: 1111,
+              },
+            ],
+          },
+          {
+            user: ["Tôn Ngộ Không", "Doãn Trí Bình"],
+            contents: [
+              {
+                id: "1879",
+                name: "Tôn Ngộ Không",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 1111,
+              },
+              {
+                id: "1879",
+                name: "Tôn Ngộ Không",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 2222,
+              },
+              {
+                id: "1881",
+                name: "Doãn Trí Bình",
+                avatar: image,
+                content: "Hello Rin-san",
+                time: 1111,
+              },
+            ],
+          },
+          {
+            user: ["Phạm Tuấn Linh", "Doãn Trí Bình"],
+            contents: [
+              {
+                id: "1877",
+                name: "Phạm Tuấn Linh",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 1111,
+              },
+              {
+                id: "1877",
+                name: "Phạm Tuấn Lin",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 2222,
+              },
+              {
+                id: "1881",
+                name: "Doãn Trí Bình",
+                avatar: image,
+                content: "Hello Rin-san",
+                time: 1111,
+              },
+            ],
+          },
+          {
+            user: ["Phạm Tuấn Linh", "Kawaguchi Satoshi"],
+            contents: [
+              {
+                id: "1877",
+                name: "Phạm Tuấn Linh",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 1111,
+              },
+              {
+                id: "1877",
+                name: "Phạm Tuấn Linh",
+                avatar: image,
+                content: "Hello Izuka",
+                time: 2222,
+              },
+              {
+                id: "1882",
+                name: "Kawaguchi Satoshi",
+                avatar: image,
+                content: "Hello Rin-san",
+                time: 1111,
+              },
+            ],
+          },
+        ],
+        group: {},
+      },
+    ],
+  },
+];
 
 const loginUser = {
   id: 1878,
@@ -19,59 +232,31 @@ const loginUser = {
   job: "employee",
 };
 
+export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
-  return (
-    <>
-      <LayoutConfigComponent>
-        <LayoutComponentPassing />
-      </LayoutConfigComponent>
-    </>
-  );
-};
-
-export const LayoutComponentPassing = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const data = useContext(ItemContext);
-  const { itemsData } = data;
-  const { info, chat } = itemsData[0].children[0];
-  // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
-  const currentChats = chat.filter((conversation) =>
-    conversation.user.includes(loginUser.name)
-  );
-
-  const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
-    return conversation.user
-      .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại
-      .map((otherUserName) => {
-        const userInfo = info.find((user) => user.name === otherUserName);
-        return {
-          name: otherUserName,
-          avatar: userInfo?.avatar || "default-avatar",
-          id: userInfo?.id,
-        };
-      });
-  });
-
   return (
-    <Layout
-      style={{
-        minHeight: "100vh",
-      }}
-    >
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
+    <ItemContext.Provider value={{ itemsData }}>
+      <Layout
+        style={{
+          minHeight: "100vh",
+        }}
       >
-        <div className="demo-logo-vertical" />
-        <DashboardComponent chattingUsers={userInfoListAfterFlat} />
-      </Sider>
-      <Layout> 
-        <HeaderComponent userInfoHeader={userInfoListAfterFlat} />
-        <Outlet />
-        <FooterComponent />
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <div className="demo-logo-vertical" />
+          <DashboardComponent loginUser={loginUser} />
+        </Sider>
+        <Layout>
+          <HeaderComponent loginUser={loginUser} />
+          <Outlet />
+          <FooterComponent />
+        </Layout>
       </Layout>
-    </Layout>
+    </ItemContext.Provider>
   );
 };
 export default LayoutComponent;

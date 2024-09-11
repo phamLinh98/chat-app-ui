@@ -1,8 +1,13 @@
+/* eslint-disable react/prop-types */
 import { Button } from "antd";
-// eslint-disable-next-line react/prop-types
-const ButtonComponent = ({name, typeSubmit, type}) => (
-    <Button type={type} htmlType={typeSubmit}>
-      {name}
-    </Button>
+export const ButtonLoginComponent = ({ name, typeSubmit, type }) => (
+  <Button type={type} htmlType={typeSubmit}>
+    {name}
+  </Button>
 );
-export default ButtonComponent;
+
+export const ButtonSignInComponent = ({ name, onClick }) => (
+  <Button type={"dashed"} onClick={onClick}>
+    {name}
+  </Button>
+);

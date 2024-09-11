@@ -226,4 +226,3 @@ export const LayoutConfigComponent = ({ children }) => {
     </ItemContext.Provider>
   );
 };
-
