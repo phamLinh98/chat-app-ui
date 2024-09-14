@@ -1,0 +1,223 @@
+{
+    "info": [
+      {
+        "id": "1877",
+        "email": "linhthusinh98@gmail.com",
+        "namelogin":"linhthusinh",
+        "nameshow": "Phạm Tuấn Linh",
+        "avatar": "image",
+        "department": "IT",
+        "password": "password",
+        "job": "employee"
+      },
+      {
+        "id": "1878",
+        "namelogin":"izukanamiho",
+        "nameshow": "Izuka Namiho",
+        "email": "linhthusinh98@gmail.com",
+        "avatar": "image",
+        "department": "HR",
+        "password": "password",
+        "job": "employee"
+      },
+      {
+        "id": "1879",
+        "namelogin":"tonngokong",
+        "nameshow": "Tôn Ngộ Không",
+        "email": "linhthusinh98@gmail.com",
+        "avatar": "image",
+        "department": "HR",
+        "password": "password",
+        "job": "employee"
+      },
+      {
+        "id": "1880",
+        "namelogin":"hanbaoquan",
+        "nameshow": "Hàn Bảo Quân",
+        "email": "linhthusinh98@gmail.com",
+        "avatar": "image",
+        "department": "HR",
+        "password": "password",
+        "job": "employee"
+      },
+      {
+        "id": "1881",
+        "namelogin":"doantribinh",
+        "nameshow": "Doãn Trí Bình",
+        "email": "linhthusinh98@gmail.com",
+        "avatar": "image",
+        "department": "HR",
+        "password": "password",
+        "job": "employee"
+      },
+      {
+        "id": "1882",
+        "namelogin":"kawaguchisatoshi",
+        "nameshow": "Kawaguchi Satoshi",
+        "email": "linhthusinh98@gmail.com",
+        "avatar": "image",
+        "department": "HR",
+        "password": "password",
+        "job": "employee"
+      }
+    ],
+    "chat": [
+      {
+        "user": ["Phạm Tuấn Linh", "Izuka Namiho"],
+        "contents": [
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 1111
+          },
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 2222
+          },
+          {
+            "id": "1878",
+            "name": "Izuka Namiho",
+            "avatar": "image",
+            "content": "Hello Rin-san",
+            "time": 1111
+          }
+        ]
+      },
+      {
+        "user": ["Phạm Tuấn Linh", "Hàn Bảo Quân"],
+        "contents": [
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 1111
+          },
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 2222
+          },
+          {
+            "id": "1880",
+            "name": "Hàn Bảo Quân",
+            "avatar": "image",
+            "content": "Hello Rin-san",
+            "time": 1111
+          }
+        ]
+      },
+      {
+        "user": ["Tôn Ngộ Không", "Izuka Namiho"],
+        "contents": [
+          {
+            "id": "1879",
+            "name": "Tôn Ngộ Không",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 1111
+          },
+          {
+            "id": "1879",
+            "name": "Tôn Ngộ Không",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 2222
+          },
+          {
+            "id": "1878",
+            "name": "Izuka Namiho",
+            "avatar": "image",
+            "content": "Hello Rin-san",
+            "time": 1111
+          }
+        ]
+      },
+      {
+        "user": ["Tôn Ngộ Không", "Doãn Trí Bình"],
+        "contents": [
+          {
+            "id": "1879",
+            "name": "Tôn Ngộ Không",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 1111
+          },
+          {
+            "id": "1879",
+            "name": "Tôn Ngộ Không",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 2222
+          },
+          {
+            "id": "1881",
+            "name": "Doãn Trí Bình",
+            "avatar": "image",
+            "content": "Hello Rin-san",
+            "time": 1111
+          }
+        ]
+      },
+      {
+        "user": ["Phạm Tuấn Linh", "Doãn Trí Bình"],
+        "contents": [
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 1111
+          },
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 2222
+          },
+          {
+            "id": "1881",
+            "name": "Doãn Trí Bình",
+            "avatar": "image",
+            "content": "Hello Rin-san",
+            "time": 1111
+          }
+        ]
+      },
+      {
+        "user": ["Phạm Tuấn Linh", "Kawaguchi Satoshi"],
+        "contents": [
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 1111
+          },
+          {
+            "id": "1877",
+            "name": "Phạm Tuấn Linh",
+            "avatar": "image",
+            "content": "Hello Izuka",
+            "time": 2222
+          },
+          {
+            "id": "1882",
+            "name": "Kawaguchi Satoshi",
+            "avatar": "image",
+            "content": "Hello Rin-san",
+            "time": 1111
+          }
+        ]
+      }
+    ]
+  }
+  

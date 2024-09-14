@@ -226,7 +226,7 @@ const itemsData = [
 
 const loginUser = {
   id: 1878,
-  name: "Phạm Tuấn Linh",
+  name: "Doãn Trí Bình",
   avatar: "123",
   department: "IT",
   job: "employee",
@@ -235,6 +235,7 @@ const loginUser = {
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
+
   return (
     <ItemContext.Provider value={{ itemsData }}>
       <Layout
