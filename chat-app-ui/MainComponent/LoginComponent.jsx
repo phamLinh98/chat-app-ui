@@ -8,43 +8,74 @@ import {
 import { Flex } from "antd";
 import FormComponent from "../SideComponent/FormComponent";
 import.meta.env.VITE_DOMAIN;
-
 const listUser = [
   {
-    id: 1000,
-    name: "admin",
-    nameshow: "Administrator",
-    password: "password",
-    avatar: "123",
-    department: "IT",
-    job: "employee",
-  },
-  {
-    id: 1878,
-    name: "Hazuki",
-    nameshow: "Hazuki",
-    password: "Hazuki",
-    avatar: "123",
-    department: "IT",
-    job: "employee",
-  },
-  {
-    id: 1877,
-    name: "quachtinh123",
+    id: "1877",
+    email: "linhthusinh98@gmail.com",
+    namelogin: "linhthusinh",
     nameshow: "Phạm Tuấn Linh",
-    password: "quachtinh123",
-    avatar: "123",
+    avatar: "image",
     department: "IT",
+    password: "linhthusinh",
+    job: "employee",
+  },
+  {
+    id: "1878",
+    namelogin: "izukanamiho",
+    nameshow: "Izuka Namiho",
+    email: "linhthusinh98@gmail.com",
+    avatar: "image",
+    department: "HR",
+    password: "password",
+    job: "employee",
+  },
+  {
+    id: "1879",
+    namelogin: "tonngokong",
+    nameshow: "Tôn Ngộ Không",
+    email: "linhthusinh98@gmail.com",
+    avatar: "image",
+    department: "HR",
+    password: "password",
+    job: "employee",
+  },
+  {
+    id: "1880",
+    namelogin: "hanbaoquan",
+    nameshow: "Hàn Bảo Quân",
+    email: "linhthusinh98@gmail.com",
+    avatar: "image",
+    department: "HR",
+    password: "password",
+    job: "employee",
+  },
+  {
+    id: "1881",
+    namelogin: "doantribinh",
+    nameshow: "Doãn Trí Bình",
+    email: "linhthusinh98@gmail.com",
+    avatar: "image",
+    department: "HR",
+    password: "password",
+    job: "employee",
+  },
+  {
+    id: "1882",
+    namelogin: "kawaguchisatoshi",
+    nameshow: "Kawaguchi Satoshi",
+    email: "linhthusinh98@gmail.com",
+    avatar: "image",
+    department: "HR",
+    password: "password",
     job: "employee",
   },
 ];
 
 const LoginComponent = () => {
-  const [name, setName] = useState("");
+  const [namelogin, setNameLogin] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const secretKey = import.meta.env.VITE_DOMAIN;
-
   useEffect(() => {
     const encryptedAuth = localStorage.getItem("isAuthenticated");
     if (encryptedAuth) {
@@ -53,7 +84,7 @@ const LoginComponent = () => {
         secretKey
       ).toString(CryptoJS.enc.Utf8);
       if (decryptedAuth === "true") {
-        navigate("/", { replace: true });
+        navigate("/", { state: { myData: "some data" } });
       }
     }
   }, [navigate, secretKey]);
@@ -62,21 +93,13 @@ const LoginComponent = () => {
     e.preventDefault();
 
     const user = listUser.find(
-      (u) => u.name === name && u.password === password
+      (u) => u.namelogin === namelogin && u.password === password
     );
 
     if (user) {
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();
       localStorage.setItem("isAuthenticated", encryptedAuth);
-      navigate("/", {
-        replace: true,
-        loginInfo: {
-          nameshow: user.nameshow,
-          id: user.id,
-          namelogin: name,
-          avatar: user.avatar,
-        },
-      });
+      navigate("/", { state: { myData: "some data" } });
     } else {
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
     }
@@ -97,8 +120,8 @@ const LoginComponent = () => {
             <label>Tên đăng nhập:</label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={namelogin}
+              onChange={(e) => setNameLogin(e.target.value)}
               style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
             />
           </div>

@@ -226,7 +226,7 @@ const itemsData = [
 
 const loginUser = {
   id: 1878,
-  name: "Phạm Tuấn Linh",
+  name: "Doãn Trí Bình",
   avatar: "123",
   department: "IT",
   job: "employee",
@@ -248,7 +248,7 @@ export const LayoutComponent = () => {
           onCollapse={(value) => setCollapsed(value)}
         >
           <div className="demo-logo-vertical" />
-          <DashboardComponent loginUser={loginUser} />
+          <DashboardComponent loginUser={loginUser}/>
         </Sider>
         <Layout>
           <HeaderComponent loginUser={loginUser} />

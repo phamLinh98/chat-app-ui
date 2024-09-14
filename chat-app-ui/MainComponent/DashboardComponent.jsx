@@ -98,7 +98,7 @@ export const DashboardComponent = ({ loginUser }) => {
         <SubMenu
           key="sub1"
           icon={<UserOutlined />}
-          title={"Phạm Tuấn Linh"}
+          title={loginUser.name}
           style={{ alignItems: "center" }}
         >
           <Menu.Item
