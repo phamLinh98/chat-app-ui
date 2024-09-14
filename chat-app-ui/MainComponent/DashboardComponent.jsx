@@ -13,10 +13,11 @@ import SubMenu from "antd/es/menu/SubMenu";
 import { useContext } from "react";
 import { ItemContext } from "./LayoutComponent";
 
-export const DashboardComponent = ({ loginUser }) => {
+export const DashboardComponent = ({ loginUser}) => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const data = useContext(ItemContext);
+  const userLoginSuccess = data.userLoginSuccess.name;
   const { info, chat } = data.itemsData[0].children[0];
   // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
   const currentChats = chat.filter((conversation) =>
@@ -40,6 +41,7 @@ export const DashboardComponent = ({ loginUser }) => {
 
     if (confirmed) {
       localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("userData");
       navigate("/login");
     } else {
       window.location.reload();
@@ -98,7 +100,7 @@ export const DashboardComponent = ({ loginUser }) => {
         <SubMenu
           key="sub1"
           icon={<UserOutlined />}
-          title={loginUser.name}
+          title={userLoginSuccess}
           style={{ alignItems: "center" }}
         >
           <Menu.Item

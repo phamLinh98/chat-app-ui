@@ -12,6 +12,16 @@ const secretKey = import.meta.env.VITE_DOMAIN;
 
 const listUser = [
   {
+    id: "2000",
+    email: "thanhthuyvu@gmail.com",
+    namelogin: "thanhthuyvu",
+    nameshow: "Vũ Thị Thanh Thủy",
+    avatar: "image",
+    department: "HR",
+    password: "thuyvu",
+    job: "employee",
+  },
+  {
     id: "1877",
     email: "linhthusinh98@gmail.com",
     namelogin: "linhthusinh",
@@ -79,8 +89,6 @@ const LoginComponent = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const secretKey = import.meta.env.VITE_DOMAIN;
-  const [userData, setUserData] = useState(null);
-
   useEffect(() => {
     const encryptedAuth = localStorage.getItem("isAuthenticated");
     if (encryptedAuth) {
@@ -104,12 +112,16 @@ const LoginComponent = () => {
     if (user) {
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();
       localStorage.setItem("isAuthenticated", encryptedAuth);
-      setUserData({
+      const userData = {
         id: user.id,
-        name: user.name,
-        email: user.email,
-      });
-      navigate("/", { state: { userData: userData } });
+        name:user.nameshow,
+        namelogin: user.namelogin,
+        avatar: user.avatar,
+        department: user.department,
+        job: user.job,
+      };
+      localStorage.setItem("userData", JSON.stringify(userData));
+      navigate("/");
     } else {
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
     }

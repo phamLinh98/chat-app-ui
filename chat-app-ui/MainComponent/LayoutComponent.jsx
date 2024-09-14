@@ -4,16 +4,12 @@ import { Layout } from "antd";
 import { DashboardComponent } from "./DashboardComponent";
 import { HeaderComponent } from "./HeaderComponent";
 import { FooterComponent } from "./FooterComponent";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import image from "../src/assets/images/1.jpeg";
-import { PieChartOutlined } from "@ant-design/icons";
 const { Sider } = Layout;
 
 const itemsData = [
   {
-    label: "Nhắn tin",
-    key: "1",
-    icon: <PieChartOutlined />,
     children: [
       {
         info: [
@@ -224,19 +220,14 @@ const itemsData = [
   },
 ];
 
-const loginUser = {
-  id: 1878,
-  name: "Phạm Tuấn Linh",
-  avatar: "123",
-  department: "IT",
-  job: "employee",
-};
-
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const savedUserData = localStorage.getItem("userData");
+  const userLoginSuccess = JSON.parse(savedUserData);
+
   return (
-    <ItemContext.Provider value={{ itemsData }}>
+    <ItemContext.Provider value={{ itemsData, userLoginSuccess }}>
       <Layout
         style={{
           minHeight: "100vh",
@@ -248,10 +239,10 @@ export const LayoutComponent = () => {
           onCollapse={(value) => setCollapsed(value)}
         >
           <div className="demo-logo-vertical" />
-          <DashboardComponent loginUser={loginUser} />
+          <DashboardComponent loginUser={userLoginSuccess} />
         </Sider>
         <Layout>
-          <HeaderComponent loginUser={loginUser} />
+          <HeaderComponent loginUser={userLoginSuccess} />
           <Outlet />
           <FooterComponent />
         </Layout>

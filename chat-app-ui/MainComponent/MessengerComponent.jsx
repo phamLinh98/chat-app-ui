@@ -228,7 +228,7 @@ const MessengerComponent = () => {
       ],
     },
   ];
-  
+
   const getUserNameById = (userId) =>
     itemsData[0]?.children[0]?.info?.find((user) => user.id === userId)?.name ||
     null;
@@ -239,18 +239,18 @@ const MessengerComponent = () => {
       <Divider orientation="left">{userName}</Divider>
       <Row justify="start">
         <Col span={6}>
-            <AlertComponent message={"Hello12345"} type="error" />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "right",
-                gap: "6px",
-              }}
-            >
-              <DeleteOutlined />
-              <AliwangwangOutlined />
-              <HeartOutlined />
-            </div>
+          <AlertComponent message={"Hello12345"} type="error" style={{width:"250px"}}/>
+          <div
+            style={{
+              display: "flex",
+              gap: "6px",
+              marginLeft: "120px",
+            }}
+          >
+            <DeleteOutlined />
+            <AliwangwangOutlined />
+            <HeartOutlined />
+          </div>
         </Col>
       </Row>
       <Divider orientation="right">You</Divider>
