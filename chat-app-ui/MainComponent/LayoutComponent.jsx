@@ -235,6 +235,7 @@ const loginUser = {
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
+
   return (
     <ItemContext.Provider value={{ itemsData }}>
       <Layout

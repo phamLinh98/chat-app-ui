@@ -8,6 +8,7 @@ import {
 import { Flex } from "antd";
 import FormComponent from "../SideComponent/FormComponent";
 import.meta.env.VITE_DOMAIN;
+
 const listUser = [
   {
     id: "1877",
@@ -70,12 +71,12 @@ const listUser = [
     job: "employee",
   },
 ];
-
 const LoginComponent = () => {
   const [namelogin, setNameLogin] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const secretKey = import.meta.env.VITE_DOMAIN;
+
   useEffect(() => {
     const encryptedAuth = localStorage.getItem("isAuthenticated");
     if (encryptedAuth) {
