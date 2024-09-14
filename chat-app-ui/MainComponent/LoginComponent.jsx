@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import {
   ButtonLoginComponent,
@@ -8,6 +8,7 @@ import {
 import { Flex } from "antd";
 import FormComponent from "../SideComponent/FormComponent";
 import.meta.env.VITE_DOMAIN;
+const secretKey = import.meta.env.VITE_DOMAIN;
 
 const listUser = [
   {
@@ -71,11 +72,14 @@ const listUser = [
     job: "employee",
   },
 ];
+
+// Co che check Login
 const LoginComponent = () => {
   const [namelogin, setNameLogin] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const secretKey = import.meta.env.VITE_DOMAIN;
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const encryptedAuth = localStorage.getItem("isAuthenticated");
@@ -85,7 +89,7 @@ const LoginComponent = () => {
         secretKey
       ).toString(CryptoJS.enc.Utf8);
       if (decryptedAuth === "true") {
-        navigate("/", { state: { myData: "some data" } });
+        navigate("/");
       }
     }
   }, [navigate, secretKey]);
@@ -100,7 +104,12 @@ const LoginComponent = () => {
     if (user) {
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();
       localStorage.setItem("isAuthenticated", encryptedAuth);
-      navigate("/", { state: { myData: "some data" } });
+      setUserData({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      });
+      navigate("/", { state: { userData: userData } });
     } else {
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
     }
@@ -150,6 +159,20 @@ const LoginComponent = () => {
       </FormComponent>
     </div>
   );
+};
+
+//Co che protect route
+// eslint-disable-next-line react/prop-types
+export const AuthWrapperComponent = ({ children }) => {
+  const encryptedAuth = localStorage.getItem("isAuthenticated");
+  if (encryptedAuth) {
+    const decryptedAuth = CryptoJS.AES.decrypt(
+      encryptedAuth,
+      secretKey
+    ).toString(CryptoJS.enc.Utf8);
+    return decryptedAuth === "true" ? children : <Navigate to="/login" />;
+  }
+  return <Navigate to="/login" />;
 };
 
 export default LoginComponent;

@@ -226,7 +226,7 @@ const itemsData = [
 
 const loginUser = {
   id: 1878,
-  name: "Doãn Trí Bình",
+  name: "Phạm Tuấn Linh",
   avatar: "123",
   department: "IT",
   job: "employee",
@@ -235,7 +235,6 @@ const loginUser = {
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
-
   return (
     <ItemContext.Provider value={{ itemsData }}>
       <Layout
@@ -249,7 +248,7 @@ export const LayoutComponent = () => {
           onCollapse={(value) => setCollapsed(value)}
         >
           <div className="demo-logo-vertical" />
-          <DashboardComponent loginUser={loginUser}/>
+          <DashboardComponent loginUser={loginUser} />
         </Sider>
         <Layout>
           <HeaderComponent loginUser={loginUser} />
