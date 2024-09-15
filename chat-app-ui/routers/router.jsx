@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import LayoutComponent from "../MainComponent/LayoutComponent";
 import { ContentComponent } from "../MainComponent/ContentComponent";
 import LoginComponent, {
   AuthWrapperComponent,
 } from "../MainComponent/LoginComponent";
 import { SiginInComponent } from "../MainComponent/SignInComponent";
+import { LayoutComponent } from "../MainComponent/LayoutComponent";
 
 export const rootConfig = [
   {

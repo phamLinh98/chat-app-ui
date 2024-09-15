@@ -6,7 +6,9 @@ import { HeaderComponent } from "./HeaderComponent";
 import { FooterComponent } from "./FooterComponent";
 import { Outlet } from "react-router-dom";
 import image from "../src/assets/images/1.jpeg";
+import CryptoJS from "crypto-js";
 const { Sider } = Layout;
+const secretKey = import.meta.env.VITE_DOMAIN;
 
 const itemsData = [
   {
@@ -223,8 +225,12 @@ const itemsData = [
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const savedUserData = localStorage.getItem("userData");
-  const userLoginSuccess = JSON.parse(savedUserData);
+  const encryptedAuth = localStorage.getItem("userData");
+  const decryptedAuth = CryptoJS.AES.decrypt(encryptedAuth, secretKey).toString(
+    CryptoJS.enc.Utf8
+  );
+
+  const userLoginSuccess = JSON.parse(decryptedAuth);
 
   return (
     <ItemContext.Provider value={{ itemsData, userLoginSuccess }}>

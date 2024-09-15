@@ -112,15 +112,23 @@ const LoginComponent = () => {
     if (user) {
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();
       localStorage.setItem("isAuthenticated", encryptedAuth);
+
       const userData = {
         id: user.id,
-        name:user.nameshow,
+        name: user.nameshow,
         namelogin: user.namelogin,
         avatar: user.avatar,
         department: user.department,
         job: user.job,
       };
-      localStorage.setItem("userData", JSON.stringify(userData));
+
+      const encryptedUserData = CryptoJS.AES.encrypt(
+        JSON.stringify(userData),
+        secretKey
+      ).toString();
+
+      localStorage.setItem("userData", encryptedUserData);
+
       navigate("/");
     } else {
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
