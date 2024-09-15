@@ -1,110 +1,30 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import useSWR from "swr";
 import {
   ButtonLoginComponent,
   ButtonSignInComponent,
 } from "../SideComponent/ButtonComponent";
 import { Flex } from "antd";
 import FormComponent from "../SideComponent/FormComponent";
-import.meta.env.VITE_DOMAIN;
+
 const secretKey = import.meta.env.VITE_DOMAIN;
+import { get } from "./../utils/api.js";
+import SpinComponent from "../SideComponent/SpinComponent.jsx";
 
-const listUser = [
-  {
-    id: "2000",
-    email: "thanhthuyvu@gmail.com",
-    namelogin: "thanhthuyvu",
-    nameshow: "Vũ Thị Thanh Thủy",
-    avatar: "image",
-    department: "HR",
-    password: "thuyvu",
-    job: "employee",
-  },
-  {
-    id: "1877",
-    email: "linhthusinh98@gmail.com",
-    namelogin: "linhthusinh",
-    nameshow: "Phạm Tuấn Linh",
-    avatar: "image",
-    department: "IT",
-    password: "linhthusinh",
-    job: "employee",
-  },
-  {
-    id: "1878",
-    namelogin: "izukanamiho",
-    nameshow: "Izuka Namiho",
-    email: "linhthusinh98@gmail.com",
-    avatar: "image",
-    department: "HR",
-    password: "password",
-    job: "employee",
-  },
-  {
-    id: "1879",
-    namelogin: "tonngokong",
-    nameshow: "Tôn Ngộ Không",
-    email: "linhthusinh98@gmail.com",
-    avatar: "image",
-    department: "HR",
-    password: "password",
-    job: "employee",
-  },
-  {
-    id: "1880",
-    namelogin: "hanbaoquan",
-    nameshow: "Hàn Bảo Quân",
-    email: "linhthusinh98@gmail.com",
-    avatar: "image",
-    department: "HR",
-    password: "password",
-    job: "employee",
-  },
-  {
-    id: "1881",
-    namelogin: "doantribinh",
-    nameshow: "Doãn Trí Bình",
-    email: "linhthusinh98@gmail.com",
-    avatar: "image",
-    department: "HR",
-    password: "password",
-    job: "employee",
-  },
-  {
-    id: "1882",
-    namelogin: "kawaguchisatoshi",
-    nameshow: "Kawaguchi Satoshi",
-    email: "linhthusinh98@gmail.com",
-    avatar: "image",
-    department: "HR",
-    password: "password",
-    job: "employee",
-  },
-];
+// Hàm fetcher cho SWR
+const fetcher = (url) => get(url).then((res) => res.json());
 
-// Co che check Login
 const LoginComponent = () => {
   const [namelogin, setNameLogin] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const secretKey = import.meta.env.VITE_DOMAIN;
-  useEffect(() => {
-    const encryptedAuth = localStorage.getItem("isAuthenticated");
-    if (encryptedAuth) {
-      const decryptedAuth = CryptoJS.AES.decrypt(
-        encryptedAuth,
-        secretKey
-      ).toString(CryptoJS.enc.Utf8);
-      if (decryptedAuth === "true") {
-        navigate("/");
-      }
-    }
-  }, [navigate, secretKey]);
+  // eslint-disable-next-line no-unused-vars
+  const { data: listUser, error } = useSWR("/info", fetcher);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const user = listUser.find(
       (u) => u.namelogin === namelogin && u.password === password
     );
@@ -126,7 +46,6 @@ const LoginComponent = () => {
         JSON.stringify(userData),
         secretKey
       ).toString();
-
       localStorage.setItem("userData", encryptedUserData);
 
       navigate("/");
@@ -134,6 +53,26 @@ const LoginComponent = () => {
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
     }
   };
+
+  useEffect(() => {
+    const encryptedAuth = localStorage.getItem("isAuthenticated");
+    if (encryptedAuth) {
+      const decryptedAuth = CryptoJS.AES.decrypt(
+        encryptedAuth,
+        secretKey
+      ).toString(CryptoJS.enc.Utf8);
+      if (decryptedAuth === "true") {
+        navigate("/");
+      }
+    }
+  }, [navigate]);
+
+  if (!listUser)
+    return (
+      <div>
+        <SpinComponent />
+      </div>
+    );
 
   return (
     <div

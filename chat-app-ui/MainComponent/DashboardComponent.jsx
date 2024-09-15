@@ -18,14 +18,15 @@ export const DashboardComponent = ({ loginUser}) => {
   const navigate = useNavigate();
   const data = useContext(ItemContext);
   const userLoginSuccess = data.userLoginSuccess.name;
-  const { info, chat } = data.itemsData[0].children[0];
-  // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
+  const { info, chat } = data.itemsData[0];
+
   const currentChats = chat.filter((conversation) =>
     conversation.user.includes(loginUser.name)
   );
+
   const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
     return conversation.user
-      .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại
+      .filter((name) => name !== loginUser.name)
       .map((otherUserName) => {
         const userInfo = info.find((user) => user.name === otherUserName);
         return {
@@ -47,6 +48,7 @@ export const DashboardComponent = ({ loginUser}) => {
       window.location.reload();
     }
   };
+
   return (
     <>
       <Menu

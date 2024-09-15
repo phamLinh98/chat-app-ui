@@ -13,7 +13,7 @@ export const HeaderComponent = ({ loginUser }) => {
 
   const { userId } = useParams();
   const data = useContext(ItemContext);
-  const { info, chat } = data.itemsData[0].children[0];
+  const { info, chat } = data.itemsData[0];
   // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
   const currentChats = chat.filter((conversation) =>
     conversation.user.includes(loginUser.name)
@@ -40,6 +40,7 @@ export const HeaderComponent = ({ loginUser }) => {
 
   // Tìm tên user dựa trên userId
   const userNameFullName = getUserNameById(userId);
+
   const style = {
     width: "10px",
     height: "10px",
