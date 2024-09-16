@@ -1,9 +1,14 @@
-import { SendOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
+import { SendOutlined } from "@ant-design/icons";
+import { Input } from "antd";
 const { Search } = Input;
-const InputComponent = () => (
+// eslint-disable-next-line react/prop-types
+const InputComponent = ({ placeholder, handlePlaceholder }) => (
   <>
-    <Search placeholder="Nhập tin nhắn" enterButton={<SendOutlined />} size="large" />
+    <Search
+      placeholder={handlePlaceholder(placeholder)}
+      enterButton={<SendOutlined />}
+      size="large"
+    />
   </>
 );
 export default InputComponent;

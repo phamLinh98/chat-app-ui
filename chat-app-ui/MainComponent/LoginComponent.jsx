@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import useSWR from "swr";
+import "../src/component.css";
 import {
   ButtonLoginComponent,
   ButtonSignInComponent,
@@ -19,6 +20,13 @@ const fetcher = (url) => get(url).then((res) => res.json());
 const LoginComponent = () => {
   const [namelogin, setNameLogin] = useState("");
   const [password, setPassword] = useState("");
+  const [isFocusedName, setIsFocusedName] = useState(false);
+  const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+  const handlePlaceholderName = isFocusedName ? "Hãy Nhập Tên Đăng Nhập" : "";
+  const handlePlaceholderPassword = isFocusedPassword
+    ? "Hãy Nhập Mật Khẩu"
+    : "";
+
   const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const { data: listUser, error } = useSWR("/info", fetcher);
@@ -74,6 +82,14 @@ const LoginComponent = () => {
       </div>
     );
 
+  const handleFocusName = () => {
+    setIsFocusedName(true);
+  };
+
+  const handleFocusPassword = () => {
+    setIsFocusedPassword(true);
+  };
+
   return (
     <div
       style={{
@@ -90,8 +106,13 @@ const LoginComponent = () => {
             <input
               type="text"
               value={namelogin}
+              placeholder={handlePlaceholderName}
               onChange={(e) => setNameLogin(e.target.value)}
-              style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
+              onFocus={handleFocusName}
+              style={{
+                width: "100%",
+                padding: "8px 0 8px 2px",
+              }}
             />
           </div>
           <div style={{ marginBottom: "10px" }}>
@@ -99,8 +120,13 @@ const LoginComponent = () => {
             <input
               type="password"
               value={password}
+              placeholder={handlePlaceholderPassword}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
+              onFocus={handleFocusPassword}
+              style={{
+                width: "100%",
+                padding: "8px 0 8px 2px",
+              }}
             />
           </div>
           <Flex gap="5px" wrap>
@@ -111,7 +137,7 @@ const LoginComponent = () => {
             />
             <ButtonSignInComponent
               name={"Signin"}
-              typeSubmit={() => alert("Disabled")}
+              typeSubmit={() => alert("Tính năng tạm thời disabled")}
             />
           </Flex>
         </form>
