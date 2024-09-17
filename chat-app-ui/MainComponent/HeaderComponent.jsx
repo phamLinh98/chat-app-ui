@@ -27,7 +27,7 @@ export const HeaderComponent = ({ loginUser }) => {
       .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại
       .map((otherUserName) => {
         const userInfo = dataDashboard.find(
-          (user) => user.name === otherUserName
+          (user) => user.nameshow === otherUserName
         );
         return {
           name: otherUserName,
