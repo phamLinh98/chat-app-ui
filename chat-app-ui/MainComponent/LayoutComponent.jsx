@@ -29,7 +29,6 @@ export const LayoutComponent = () => {
 
   const { data: dataDashboard } = useSWR("/info", fetcherDashboard);
   const { data: dataChat } = useSWR("/chat", fetcherChat);
-  console.log("dataDashboard :>> ", dataDashboard);
   if (!dataDashboard || !dataChat)
     return (
       <div>
