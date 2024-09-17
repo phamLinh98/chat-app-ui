@@ -13,14 +13,17 @@ import SubMenu from "antd/es/menu/SubMenu";
 import { useContext } from "react";
 import { ItemContext } from "./LayoutComponent";
 
-export const DashboardComponent = ({ loginUser}) => {
+export const DashboardComponent = ({ loginUser }) => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const data = useContext(ItemContext);
-  const userLoginSuccess = data.userLoginSuccess.name;
-  const { info, chat } = data.itemsData[0];
 
-  const currentChats = chat.filter((conversation) =>
+  const userLoginSuccess = data.userLoginSuccess.name;
+
+  const dataDashboard = data.dataDashboard;
+  const dataChat = data.dataChat;
+
+  const currentChats = dataChat.filter((conversation) =>
     conversation.user.includes(loginUser.name)
   );
 
@@ -28,7 +31,9 @@ export const DashboardComponent = ({ loginUser}) => {
     return conversation.user
       .filter((name) => name !== loginUser.name)
       .map((otherUserName) => {
-        const userInfo = info.find((user) => user.name === otherUserName);
+        const userInfo = dataDashboard.find(
+          (user) => user.nameshow === otherUserName
+        );
         return {
           name: otherUserName,
           avatar: userInfo?.avatar || "default-avatar",

@@ -13,9 +13,12 @@ export const HeaderComponent = ({ loginUser }) => {
 
   const { userId } = useParams();
   const data = useContext(ItemContext);
-  const { info, chat } = data.itemsData[0];
+
+  const dataDashboard = data.dataDashboard;
+  const dataChat = data.dataChat;
+
   // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
-  const currentChats = chat.filter((conversation) =>
+  const currentChats = dataChat.filter((conversation) =>
     conversation.user.includes(loginUser.name)
   );
 
@@ -23,7 +26,9 @@ export const HeaderComponent = ({ loginUser }) => {
     return conversation.user
       .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại
       .map((otherUserName) => {
-        const userInfo = info.find((user) => user.name === otherUserName);
+        const userInfo = dataDashboard.find(
+          (user) => user.name === otherUserName
+        );
         return {
           name: otherUserName,
           avatar: userInfo?.avatar || "default-avatar",

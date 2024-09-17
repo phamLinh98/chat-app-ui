@@ -1,8 +1,6 @@
 import { Col, Divider, Row } from "antd";
 import AlertComponent from "../SideComponent/AlertComponent";
 import { useParams } from "react-router-dom";
-// import { useContext } from "react";
-// import { ItemContext } from "../SideComponent/LayoutConfigComponent";
 import {
   AliwangwangOutlined,
   DeleteOutlined,

@@ -10,6 +10,25 @@ export const get = async (route) => {
   });
 };
 
+export const getDataUserAfterLogin = async (route) => {
+  const url = `${envConfig.host}${route}`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  return data.map(({ id, namelogin, nameshow, email, avatar, department }) => ({
+    id,
+    namelogin,
+    nameshow,
+    email,
+    avatar,
+    department,
+  }));
+};
+
 export const post = async (route, data) => {
   const url = `${envConfig.host}${route}`;
   return fetch(url, {

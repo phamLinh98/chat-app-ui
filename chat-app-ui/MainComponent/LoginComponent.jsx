@@ -30,7 +30,7 @@ const LoginComponent = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
   const { data: listUser, error } = useSWR("/info", fetcher);
-
+  // data la object chua du lieu, error chua loi
   const handleSubmit = (e) => {
     e.preventDefault();
     const user = listUser.find(
