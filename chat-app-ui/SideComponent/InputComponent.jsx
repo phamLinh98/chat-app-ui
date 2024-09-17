@@ -2,10 +2,10 @@ import { SendOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 const { Search } = Input;
 // eslint-disable-next-line react/prop-types
-const InputComponent = ({ placeholder, handlePlaceholder }) => (
+const InputComponent = ({ placeholder }) => (
   <>
     <Search
-      placeholder={handlePlaceholder(placeholder)}
+      placeholder={placeholder}
       enterButton={<SendOutlined />}
       size="large"
     />
