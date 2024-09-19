@@ -2,14 +2,14 @@ import { envConfig } from "../config/envConfig";
 
 export const get = async (route) => {
   const url = `${envConfig.host}${route}`;
-  return fetch(url, {
+  const data = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
+  return data;
 };
-
 export const getDataUserAfterLogin = async (route) => {
   const url = `${envConfig.host}${route}`;
   const response = await fetch(url, {

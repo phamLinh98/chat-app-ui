@@ -34,7 +34,7 @@ const LoginComponent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const user = listUser.find(
-      (u) => u.namelogin === namelogin && u.password === password
+      (u) => u.namelogin === namelogin
     );
 
     if (user) {
