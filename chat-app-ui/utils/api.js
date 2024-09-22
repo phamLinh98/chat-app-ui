@@ -8,7 +8,7 @@ export const get = async (route) => {
       "Content-Type": "application/json",
     },
   });
-  return data;
+  return data; //dummy data, no phu thuoc hoan toan vao data tu BE
 };
 export const getDataUserAfterLogin = async (route) => {
   const url = `${envConfig.host}${route}`;
