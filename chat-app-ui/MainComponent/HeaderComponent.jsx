@@ -16,6 +16,7 @@ export const HeaderComponent = ({ loginUser }) => {
   const data = useContext(ItemContext);
   const dataDashboard = data.dataDashboard;
   const dataChat = data.dataChat;
+  const userLoginName = data.userLoginSuccess.name;
 
   // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
   const currentChats = dataChat.filter((conversation) =>
@@ -98,7 +99,7 @@ export const HeaderComponent = ({ loginUser }) => {
                   <b>Không tìm thấy tin nhắn người dùng có mã : {userId}</b>
                 ) : (
                   <h3 style={{ marginBottom: "4px" }}>
-                    Chào mừng bạn , Hãy bắt đầu nhắn tin với bạn bè nào
+                    Welcome {userLoginName} !
                   </h3>
                 )}
               </p>
