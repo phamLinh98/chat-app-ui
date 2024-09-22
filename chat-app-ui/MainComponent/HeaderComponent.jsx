@@ -11,9 +11,9 @@ export const HeaderComponent = ({ loginUser }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  // Lấy userId từ Route
   const { userId } = useParams();
   const data = useContext(ItemContext);
-
   const dataDashboard = data.dataDashboard;
   const dataChat = data.dataChat;
 
@@ -24,7 +24,7 @@ export const HeaderComponent = ({ loginUser }) => {
 
   const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
     return conversation.user
-      .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại
+      .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại đang login
       .map((otherUserName) => {
         const userInfo = dataDashboard.find(
           (user) => user.nameshow === otherUserName
@@ -39,8 +39,10 @@ export const HeaderComponent = ({ loginUser }) => {
 
   // Hàm tìm user theo id
   const getUserNameById = (userId) => {
-    const user = userInfoListAfterFlat.find((user) => user.id === userId);
-    return user ? user.name : null;
+    const user = userInfoListAfterFlat.find(
+      (user) => String(user.id) === String(userId)
+    );
+    return user ? user.name : "";
   };
 
   // Tìm tên user dựa trên userId

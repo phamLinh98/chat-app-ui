@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Menu } from "antd";
+import anh123 from "../public/image/1.jpeg";
+import anh222 from "../public/image/6.jpeg";
 import AvatarComponent from "../SideComponent/AvatarComponent";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -7,7 +9,6 @@ import {
   MessageOutlined,
   SettingOutlined,
   UserAddOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import SubMenu from "antd/es/menu/SubMenu";
 import { useContext } from "react";
@@ -19,7 +20,6 @@ export const DashboardComponent = ({ loginUser }) => {
   const data = useContext(ItemContext);
 
   const userLoginSuccess = data.userLoginSuccess.name;
-
   const dataDashboard = data.dataDashboard;
   const dataChat = data.dataChat;
 
@@ -85,6 +85,8 @@ export const DashboardComponent = ({ loginUser }) => {
                   icon={`${user.name.charAt(0)}`}
                   size={10}
                   color="orange"
+                  // src={user.avatar}
+                  src={anh123}
                 />
                 <p
                   style={{
@@ -106,9 +108,29 @@ export const DashboardComponent = ({ loginUser }) => {
       <Menu theme="dark" key={"1"} mode="inline">
         <SubMenu
           key="sub1"
-          icon={<UserOutlined />}
-          title={userLoginSuccess}
+          icon={
+            <AvatarComponent
+              src={anh222}
+              icon={userLoginSuccess.charAt(0)}
+              color="red"
+            />
+          }
+          title={
+            <p
+              style={{
+                marginLeft: "11px",
+                marginRight: "5px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "120px",
+              }}
+            >
+              {userLoginSuccess}
+            </p>
+          }
           style={{ alignItems: "center" }}
+          src={anh123}
         >
           <Menu.Item
             key="1"
