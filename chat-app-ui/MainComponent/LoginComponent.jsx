@@ -29,13 +29,11 @@ const LoginComponent = () => {
 
   const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
-  const { data: listUser, error } = useSWR("/info", fetcher);
+  const { data: listUser, error } = useSWR("/api/info", fetcher);
   // data la object chua du lieu, error chua loi
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = listUser.find(
-      (u) => u.namelogin === namelogin
-    );
+    const user = listUser.find((u) => u.namelogin === namelogin);
 
     if (user) {
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();

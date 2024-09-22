@@ -27,8 +27,8 @@ export const LayoutComponent = () => {
 
   const userLoginSuccess = JSON.parse(decryptedAuth);
 
-  const { data: dataDashboard } = useSWR("/info", fetcherDashboard);
-  const { data: dataChat } = useSWR("/chat", fetcherChat);
+  const { data: dataDashboard } = useSWR("/api/info", fetcherDashboard);
+  const { data: dataChat } = useSWR("/api/chat", fetcherChat);
   if (!dataDashboard || !dataChat)
     return (
       <div>
