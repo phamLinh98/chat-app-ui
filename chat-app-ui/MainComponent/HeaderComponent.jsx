@@ -14,41 +14,41 @@ export const HeaderComponent = ({ loginUser }) => {
   // Lấy userId từ Route
   const { userId } = useParams();
   const data = useContext(ItemContext);
-  const dataDashboard = data.dataDashboard;
+  const getDataFromUserList = data.dataDashboard;
   const dataChat = data.dataChat;
   const userLoginName = data.userLoginSuccess.name;
 
-  // Tạo danh sách người dùng đang trò chuyện và lấy ID của họ
+  const getNameShowFromNameLogin = (namelogin) => {
+    const nameShow = getDataFromUserList.find(
+      (item) => item.namelogin === namelogin
+    );
+    return nameShow ? nameShow.nameshow : "null";
+  };
   const currentChats = dataChat.filter((conversation) =>
-    conversation.user.includes(loginUser.name)
+    conversation.user.includes(loginUser.namelogin)
   );
-
   const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
-    return conversation.user
-      .filter((name) => name !== loginUser.name) // Loại bỏ người dùng hiện tại đang login
-      .map((otherUserName) => {
-        const userInfo = dataDashboard.find(
-          (user) => user.nameshow === otherUserName
-        );
-        return {
-          name: otherUserName,
-          avatar: userInfo?.avatar || "default-avatar",
-          id: userInfo?.id,
-        };
-      });
+    const otherUser = conversation.contents.find(
+      (content) => content.name !== loginUser.namelogin
+    );
+    if (otherUser) {
+      return {
+        userId: otherUser.id,
+        name: getNameShowFromNameLogin(otherUser.name),
+        avatar: otherUser.avatar,
+      };
+    }
+    return [];
   });
-
   // Hàm tìm user theo id
   const getUserNameById = (userId) => {
     const user = userInfoListAfterFlat.find(
-      (user) => String(user.id) === String(userId)
+      (user) => String(user.userId) === String(userId)
     );
     return user ? user.name : "";
   };
-
   // Tìm tên user dựa trên userId
   const userNameFullName = getUserNameById(userId);
-
   const style = {
     width: "10px",
     height: "10px",

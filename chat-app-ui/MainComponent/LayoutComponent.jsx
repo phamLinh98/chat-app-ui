@@ -5,7 +5,6 @@ import { DashboardComponent } from "./DashboardComponent";
 import { HeaderComponent } from "./HeaderComponent";
 import { FooterComponent } from "./FooterComponent";
 import { Outlet } from "react-router-dom";
-import image from "../src/assets/images/1.jpeg";
 import CryptoJS from "crypto-js";
 import useSWR from "swr";
 import { get } from "../utils/api";

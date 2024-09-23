@@ -17,7 +17,7 @@ export const SmallAvatarComponent = ({ color, icon, src, size }) => (
   <Avatar
     size={size}
     icon={icon}
-    style={{ backgroundColor: `${color}` }}
+    style={{ backgroundColor: `${color}`, marginTop: "10px"}}
     src={src}
   />
 );

@@ -19,29 +19,32 @@ export const DashboardComponent = ({ loginUser }) => {
   const navigate = useNavigate();
   const data = useContext(ItemContext);
 
-  const userLoginSuccess = data.userLoginSuccess.name;
-  const dataDashboard = data.dataDashboard;
+  const userLoginSuccess = data.userLoginSuccess.namelogin;
   const dataChat = data.dataChat;
+  const getDataFromUserList = data.dataDashboard;
 
+  const getNameShowFromNameLogin = (namelogin) => {
+    const nameShow = getDataFromUserList.find(
+      (item) => item.namelogin === namelogin
+    );
+    return nameShow ? nameShow.nameshow : "null";
+  };
   const currentChats = dataChat.filter((conversation) =>
-    conversation.user.includes(loginUser.name)
+    conversation.user.includes(loginUser.namelogin)
   );
-
   const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
-    return conversation.user
-      .filter((name) => name !== loginUser.name)
-      .map((otherUserName) => {
-        const userInfo = dataDashboard.find(
-          (user) => user.nameshow === otherUserName
-        );
-        return {
-          name: otherUserName,
-          avatar: userInfo?.avatar || "default-avatar",
-          id: userInfo?.id,
-        };
-      });
+    const otherUser = conversation.contents.find(
+      (content) => content.name !== loginUser.namelogin
+    );
+    if (otherUser) {
+      return {
+        userId: otherUser.id,
+        name: getNameShowFromNameLogin(otherUser.name),
+        avatar: otherUser.avatar,
+      };
+    }
+    return [];
   });
-
   const solveLogout = () => {
     const confirmed = confirm("Bạn chắc chắn muốn đăng xuất không?");
 
@@ -71,21 +74,20 @@ export const DashboardComponent = ({ loginUser }) => {
         >
           {userInfoListAfterFlat.map((user) => (
             <Menu.Item
-              key={user.id} // Sử dụng ID người dùng làm key
+              key={user.userId} // Sử dụng ID người dùng làm key
               style={{
                 display: "flex",
                 alignItems: "center",
                 paddingBottom: "4px",
                 paddingLeft: "25px",
               }}
-              onClick={() => navigate(`/chat/${user.id}`)} // Điều hướng đến route tương ứng với ID
+              onClick={() => navigate(`/chat/${user.userId}`)}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
                 <AvatarComponent
                   icon={`${user.name.charAt(0)}`}
                   size={10}
                   color="orange"
-                  // src={user.avatar}
                   src={anh123}
                 />
                 <p
@@ -111,7 +113,7 @@ export const DashboardComponent = ({ loginUser }) => {
           icon={
             <AvatarComponent
               src={anh222}
-              icon={userLoginSuccess.charAt(0)}
+              icon={getNameShowFromNameLogin(userLoginSuccess).charAt(0)}
               color="red"
             />
           }
@@ -126,7 +128,7 @@ export const DashboardComponent = ({ loginUser }) => {
                 maxWidth: "120px",
               }}
             >
-              {userLoginSuccess}
+              {getNameShowFromNameLogin(userLoginSuccess)}
             </p>
           }
           style={{ alignItems: "center" }}
