@@ -88,7 +88,9 @@ export const DashboardComponent = ({ loginUser }) => {
                   icon={`${user.name.charAt(0)}`}
                   size={10}
                   color="orange"
-                  src={anh123}
+                  src={
+                    "https://venus-fetch-image.vercel.app/uploads/1727082603384.jpg"
+                  }
                 />
                 <p
                   style={{

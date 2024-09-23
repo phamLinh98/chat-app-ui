@@ -13,12 +13,11 @@ const AvatarComponent = ({ color, icon, size, src, onClick }) => (
 );
 
 // eslint-disable-next-line react/prop-types
-export const SmallAvatarComponent = ({ color, icon, src, size }) => (
+export const SmallAvatarComponent = ({ color, icon, size }) => (
   <Avatar
     size={size}
     icon={icon}
     style={{ backgroundColor: `${color}`, marginTop: "10px"}}
-    src={src}
   />
 );
 export default AvatarComponent;
