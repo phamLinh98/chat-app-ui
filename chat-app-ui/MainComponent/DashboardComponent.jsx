@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Menu } from "antd";
-import anh123 from "../public/image/1.jpeg";
-import anh222 from "../public/image/6.jpeg";
 import AvatarComponent from "../SideComponent/AvatarComponent";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -19,9 +17,13 @@ export const DashboardComponent = ({ loginUser }) => {
   const navigate = useNavigate();
   const data = useContext(ItemContext);
 
-  const userLoginSuccess = data.userLoginSuccess.namelogin;
+  // get info login user now from local storage
+  const userLoginSuccessName = data.userLoginSuccess.namelogin;
+  const userLoginSuccessAvatar = data.userLoginSuccess.avatar;
+
   const dataChat = data.dataChat;
   const getDataFromUserList = data.dataDashboard;
+
 
   const getNameShowFromNameLogin = (namelogin) => {
     const nameShow = getDataFromUserList.find(
@@ -29,9 +31,11 @@ export const DashboardComponent = ({ loginUser }) => {
     );
     return nameShow ? nameShow.nameshow : "null";
   };
+
   const currentChats = dataChat.filter((conversation) =>
     conversation.user.includes(loginUser.namelogin)
   );
+
   const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
     const otherUser = conversation.contents.find(
       (content) => content.name !== loginUser.namelogin
@@ -45,9 +49,10 @@ export const DashboardComponent = ({ loginUser }) => {
     }
     return [];
   });
+
+  //LOGOUT in Dashboard
   const solveLogout = () => {
     const confirmed = confirm("Bạn chắc chắn muốn đăng xuất không?");
-
     if (confirmed) {
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("userData");
@@ -88,9 +93,7 @@ export const DashboardComponent = ({ loginUser }) => {
                   icon={`${user.name.charAt(0)}`}
                   size={10}
                   color="orange"
-                  src={
-                    "https://venus-fetch-image.vercel.app/uploads/1727082603384.jpg"
-                  }
+                  src={user.avatar}
                 />
                 <p
                   style={{
@@ -114,8 +117,8 @@ export const DashboardComponent = ({ loginUser }) => {
           key="sub1"
           icon={
             <AvatarComponent
-              src={anh222}
-              icon={getNameShowFromNameLogin(userLoginSuccess).charAt(0)}
+              src={userLoginSuccessAvatar}
+              icon={getNameShowFromNameLogin(userLoginSuccessName).charAt(0)}
               color="red"
             />
           }
@@ -130,11 +133,10 @@ export const DashboardComponent = ({ loginUser }) => {
                 maxWidth: "120px",
               }}
             >
-              {getNameShowFromNameLogin(userLoginSuccess)}
+              {getNameShowFromNameLogin(userLoginSuccessName)}
             </p>
           }
           style={{ alignItems: "center" }}
-          src={anh123}
         >
           <Menu.Item
             key="1"

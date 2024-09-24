@@ -7,14 +7,13 @@ import { FooterComponent } from "./FooterComponent";
 import { Outlet } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import useSWR from "swr";
-import { get } from "../utils/api";
+import { get, getDataFollowNameLogin } from "../utils/api";
 import SpinComponent from "../SideComponent/SpinComponent";
 const { Sider } = Layout;
 const secretKey = import.meta.env.VITE_DOMAIN;
 
 const fetcherDashboard = (url) => get(url).then((res) => res.json());
-
-const fetcherChat = (url) => get(url).then((res) => res.json());
+const fetcherChatNameLogin = (url) => getDataFollowNameLogin(url).then((res) => res.json());
 
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
@@ -27,7 +26,8 @@ export const LayoutComponent = () => {
   const userLoginSuccess = JSON.parse(decryptedAuth);
 
   const { data: dataDashboard } = useSWR("/api/info", fetcherDashboard);
-  const { data: dataChat } = useSWR("/api/chat", fetcherChat);
+  const { data: dataChat} = useSWR("/api/chat-follow-namelogin", fetcherChatNameLogin);
+
   if (!dataDashboard || !dataChat)
     return (
       <div>

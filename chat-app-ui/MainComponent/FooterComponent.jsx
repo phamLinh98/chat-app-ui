@@ -2,7 +2,6 @@ import { Footer } from "antd/es/layout/layout";
 import InputComponent from "../SideComponent/InputComponent";
 import { useParams } from "react-router-dom";
 import AvatarComponent from "../SideComponent/AvatarComponent";
-import anh222 from "../public/image/6.jpeg";
 import CryptoJS from "crypto-js";
 const secretKey = import.meta.env.VITE_DOMAIN;
 
@@ -13,7 +12,7 @@ export const FooterComponent = () => {
     CryptoJS.enc.Utf8
   );
   const loginUserInfo = JSON.parse(decryptedAuth);
-  const { name } = loginUserInfo;
+  const { name, avatar } = loginUserInfo;
 
   return (
     <Footer
@@ -27,7 +26,7 @@ export const FooterComponent = () => {
             color="red"
             icon={name.charAt(0)}
             size="14"
-            src={anh222}
+            src={avatar}
           />
           <InputComponent placeholder={'Hãy nhập tin nhắn'}/>
         </div>

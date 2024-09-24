@@ -14,9 +14,6 @@ const secretKey = import.meta.env.VITE_DOMAIN;
 import { get } from "./../utils/api.js";
 import SpinComponent from "../SideComponent/SpinComponent.jsx";
 
-// Hàm fetcher cho SWR
-const fetcher = (url) => get(url).then((res) => res.json());
-
 const LoginComponent = () => {
   const [namelogin, setNameLogin] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +25,8 @@ const LoginComponent = () => {
     : "";
 
   const navigate = useNavigate();
+  // Hàm fetcher cho SWR
+  const fetcher = (url) => get(url).then((res) => res.json());
   // eslint-disable-next-line no-unused-vars
   const { data: listUser, error } = useSWR("/api/info", fetcher);
   // data la object chua du lieu, error chua loi
