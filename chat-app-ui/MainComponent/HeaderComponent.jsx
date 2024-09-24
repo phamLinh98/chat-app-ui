@@ -45,10 +45,10 @@ export const HeaderComponent = ({ loginUser }) => {
     const user = userInfoListAfterFlat.find(
       (user) => String(user.userId) === String(userId)
     );
-    return user ? user.name : "";
+    return user ?{ name: user.name, avatar:user.avatar} : "";
   };
   // Tìm tên user dựa trên userId
-  const userNameFullName = getUserNameById(userId);
+  const {name, avatar} = getUserNameById(userId);
   const style = {
     width: "10px",
     height: "10px",
@@ -73,7 +73,7 @@ export const HeaderComponent = ({ loginUser }) => {
       >
         <Breadcrumb.Item>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {userNameFullName ? (
+            {name ? (
               <>
                 <div
                   style={{
@@ -83,12 +83,13 @@ export const HeaderComponent = ({ loginUser }) => {
                   }}
                 >
                   <AvatarComponent
-                    icon={userNameFullName.charAt(0)}
+                    icon={name.charAt(0)}
                     size={10}
                     color={"orange"}
+                    src={avatar}
                   />
                   <p style={{ margin: "0 3px 0 4px" }}>
-                    <b>{userNameFullName || "No Name"}</b>
+                    <b>{name || "No Name"}</b>
                     <div style={style}></div>
                   </p>
                 </div>
