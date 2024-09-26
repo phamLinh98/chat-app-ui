@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import useSWR from "swr";
+// import useSWR from "swr";
 import "../src/component.css";
 import {
   ButtonLoginComponent,
@@ -9,10 +9,8 @@ import {
 } from "../SideComponent/ButtonComponent";
 import { Flex } from "antd";
 import FormComponent from "../SideComponent/FormComponent";
-
 const secretKey = import.meta.env.VITE_DOMAIN;
-import { get } from "./../utils/api.js";
-import SpinComponent from "../SideComponent/SpinComponent.jsx";
+import { getUserLoginIfExists } from "./../utils/api.js";
 
 const LoginComponent = () => {
   const [namelogin, setNameLogin] = useState("");
@@ -23,29 +21,31 @@ const LoginComponent = () => {
   const handlePlaceholderPassword = isFocusedPassword
     ? "Hãy Nhập Mật Khẩu"
     : "";
-
   const navigate = useNavigate();
-  // Hàm fetcher cho SWR
-  const fetcher = (url) => get(url).then((res) => res.json());
-  // eslint-disable-next-line no-unused-vars
-  const { data: listUser, error } = useSWR("/api/info", fetcher);
-  // data la object chua du lieu, error chua loi
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = listUser.find((u) => u.namelogin === namelogin);
-
-    if (user) {
+    try {
+      const userDataGet = await getUserLoginIfExists(
+        "/api/find-user",
+        namelogin,
+        password
+      );
+      console.log("userDataGet :>> ", userDataGet);
+      const { nameshow } = userDataGet;
+      console.log("nameshow :>> ", nameshow);
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();
       localStorage.setItem("isAuthenticated", encryptedAuth);
 
       const userData = {
-        id: user.id,
-        name: user.nameshow,
-        namelogin: user.namelogin,
-        avatar: user.avatar,
-        department: user.department,
-        job: user.job,
+        id: userDataGet.id,
+        name: userDataGet.nameshow,
+        namelogin: userDataGet.namelogin,
+        avatar: userDataGet.avatar,
+        department: userDataGet.department,
+        job: userDataGet.job,
       };
+
+      console.log("userData :>> ", userData);
 
       const encryptedUserData = CryptoJS.AES.encrypt(
         JSON.stringify(userData),
@@ -54,7 +54,8 @@ const LoginComponent = () => {
       localStorage.setItem("userData", encryptedUserData);
 
       navigate("/");
-    } else {
+    } catch (error) {
+      console.error("Login failed:", error);
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
     }
   };
@@ -71,13 +72,6 @@ const LoginComponent = () => {
       }
     }
   }, [navigate]);
-
-  if (!listUser)
-    return (
-      <div>
-        <SpinComponent />
-      </div>
-    );
 
   const handleFocusName = () => {
     setIsFocusedName(true);

@@ -12,6 +12,25 @@ export const get = async (route) => {
   return data; //dummy data, no phu thuoc hoan toan vao data tu BE
 };
 
+export const getUserLoginIfExists = async (route, namelogin, password) => {
+  const url = `${envConfig.host}${route}`;
+  const response = await fetch(url, {
+    method: "POST", // Sử dụng POST để gửi dữ liệu
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ namelogin, password }), // Gửi dữ liệu người dùng trong body
+  });
+
+  if (!response.ok) {
+    // Nếu có lỗi từ server (ví dụ: 404, 500), xử lý ở đây
+    throw new Error('Network response was not ok');
+  }
+
+  const data = await response.json(); // Chuyển đổi response thành JSON
+  return data;
+};
+
 export const getDataFollowNameLogin = async (route) => {
   const url = `${envConfig.host}${route}`;
   const {namelogin} = getDataFromLocalStorage();
