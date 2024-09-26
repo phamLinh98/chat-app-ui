@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import useSWR from "swr";
 import "../src/component.css";
 import {
   ButtonLoginComponent,
@@ -19,19 +18,36 @@ const LoginComponent = () => {
   const [password, setPassword] = useState("");
   const [isFocusedName, setIsFocusedName] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
+  const [listUser, setListUser] = useState(null); // State to store fetched users
+  const [loading, setLoading] = useState(false); // State for loading spinner
   const handlePlaceholderName = isFocusedName ? "Hãy Nhập Tên Đăng Nhập" : "";
   const handlePlaceholderPassword = isFocusedPassword
     ? "Hãy Nhập Mật Khẩu"
     : "";
 
   const navigate = useNavigate();
-  // Hàm fetcher cho SWR
-  const fetcher = (url) => get(url).then((res) => res.json());
-  // eslint-disable-next-line no-unused-vars
-  const { data: listUser, error } = useSWR("/api/info", fetcher);
-  // data la object chua du lieu, error chua loi
-  const handleSubmit = (e) => {
+
+  // Fetch function
+  const fetcher = async () => {
+    setLoading(true);
+    try {
+      const res = await get("/api/info");
+      const data = await res.json();
+      setListUser(data); // Store the fetched user list in state
+    } catch (error) {
+      console.error("Error fetching data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // Fetch data when the form is submitted
+    await fetcher();
+
+    if (!listUser) return; // Ensure listUser is fetched before proceeding
+
     const user = listUser.find((u) => u.namelogin === namelogin);
 
     if (user) {
@@ -72,7 +88,7 @@ const LoginComponent = () => {
     }
   }, [navigate]);
 
-  if (!listUser)
+  if (loading)
     return (
       <div>
         <SpinComponent />
@@ -143,7 +159,7 @@ const LoginComponent = () => {
   );
 };
 
-//Co che protect route
+// Protect route
 // eslint-disable-next-line react/prop-types
 export const AuthWrapperComponent = ({ children }) => {
   const encryptedAuth = localStorage.getItem("isAuthenticated");
