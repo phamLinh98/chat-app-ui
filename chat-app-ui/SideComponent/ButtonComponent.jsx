@@ -6,8 +6,8 @@ export const ButtonLoginComponent = ({ name, typeSubmit, type }) => (
   </Button>
 );
 
-export const ButtonSignInComponent = ({ name, typeSubmit }) => (
-  <Button type={"dashed"} onClick={typeSubmit}>
+export const ButtonSignInComponent = ({ name, onClick }) => (
+  <Button type={"dashed"} onClick={onClick}>
     {name}
   </Button>
 );

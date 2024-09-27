@@ -138,7 +138,7 @@ const LoginComponent = () => {
             />
             <ButtonSignInComponent
               name={"Signin"}
-              typeSubmit={() => alert("Tính năng tạm thời disabled")}
+              onClick={() => navigate('/signin')}
             />
           </Flex>
         </form>
