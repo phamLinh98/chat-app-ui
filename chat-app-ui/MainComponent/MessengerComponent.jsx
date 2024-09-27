@@ -1,15 +1,20 @@
 import { Col, Row } from "antd";
 import AlertComponent from "../SideComponent/AlertComponent";
 import { useParams } from "react-router-dom";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { SmallAvatarComponent } from "../SideComponent/AvatarComponent";
 // import CryptoJS from "crypto-js";
 import useSWR from "swr";
 import { get, getChatDoubleUser } from "../utils/api";
 import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
+import { useState } from "react";
+// import { useState } from "react";
 
 const MessengerComponent = () => {
+  // const [liked, setLiked] = useState(false);
   const { userId } = useParams();
+  const [likedUser, setLikedUser] = useState(false);
+  const [likedAdmin, setLikedAdmin] = useState(false);
   const fetcher = (url) => get(url).then((res) => res.json());
   const { data: itemsData, error } = useSWR("/api/info", fetcher);
 
@@ -66,7 +71,16 @@ const MessengerComponent = () => {
               >
                 {isReceiver && (
                   <>
-                    <HeartOutlined />
+                    <div
+                      onClick={() => setLikedUser(!likedUser)}
+                      style={{ marginTop: "20px" }}
+                    >
+                      {likedUser ? (
+                        <HeartFilled style={{ color: "red" }} />
+                      ) : (
+                        <HeartOutlined />
+                      )}
+                    </div>
                     <AlertComponent message={message.content} type="error" />
                     <SmallAvatarComponent
                       size={18}
@@ -85,7 +99,16 @@ const MessengerComponent = () => {
                       src={userNow.avatar}
                     />
                     <AlertComponent message={message.content} type="info" />
-                    <HeartOutlined />
+                    <div
+                      onClick={() => setLikedAdmin(!likedAdmin)}
+                      style={{ marginTop: "20px" }}
+                    >
+                      {likedAdmin ? (
+                        <HeartFilled style={{ color: "red" }} />
+                      ) : (
+                        <HeartOutlined />
+                      )}
+                    </div>
                   </>
                 )}
               </div>
