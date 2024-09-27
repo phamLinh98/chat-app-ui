@@ -11,7 +11,6 @@ import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
 const MessengerComponent = () => {
   const { userId } = useParams();
   const fetcher = (url) => get(url).then((res) => res.json());
-  // eslint-disable-next-line no-unused-vars
   const { data: itemsData, error } = useSWR("/api/info", fetcher);
 
   const { namelogin, avatar } = getDataFromLocalStorage();
