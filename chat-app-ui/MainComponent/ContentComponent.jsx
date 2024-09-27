@@ -19,7 +19,7 @@ export const ContentComponent = () => {
         <div
           style={{
             padding: 24,
-            minHeight: 840,
+            minHeight: 800,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
