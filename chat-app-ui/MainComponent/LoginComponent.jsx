@@ -11,6 +11,7 @@ import { Flex } from "antd";
 import FormComponent from "../SideComponent/FormComponent";
 const secretKey = import.meta.env.VITE_DOMAIN;
 import { getUserLoginIfExists } from "./../utils/api.js";
+import SpinComponent from "../SideComponent/SpinComponent.jsx";
 
 const LoginComponent = () => {
   const [namelogin, setNameLogin] = useState("");
@@ -18,12 +19,14 @@ const LoginComponent = () => {
   const [isFocusedName, setIsFocusedName] = useState(false);
   const [isFocusedPassword, setIsFocusedPassword] = useState(false);
   const handlePlaceholderName = isFocusedName ? "Hãy Nhập Tên Đăng Nhập" : "";
+  const [loading, setLoading] = useState(false);
   const handlePlaceholderPassword = isFocusedPassword
     ? "Hãy Nhập Mật Khẩu"
     : "";
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const userDataGet = await getUserLoginIfExists(
         "/api/find-user",
@@ -52,10 +55,10 @@ const LoginComponent = () => {
         secretKey
       ).toString();
       localStorage.setItem("userData", encryptedUserData);
-
       navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
+      setLoading(false);
       alert("Tên đăng nhập hoặc mật khẩu không đúng");
     }
   };
@@ -80,6 +83,13 @@ const LoginComponent = () => {
   const handleFocusPassword = () => {
     setIsFocusedPassword(true);
   };
+
+  if (loading)
+    return (
+      <div>
+        <SpinComponent />
+      </div>
+    );
 
   return (
     <div
