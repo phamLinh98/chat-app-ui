@@ -73,7 +73,7 @@ const MessengerComponent = () => {
                   <>
                     <div
                       onClick={() => setLikedUser(!likedUser)}
-                      style={{ marginTop: "20px" }}
+                      style={{ marginTop: "10px" }}
                     >
                       {likedUser ? (
                         <HeartFilled style={{ color: "red" }} />
@@ -101,7 +101,7 @@ const MessengerComponent = () => {
                     <AlertComponent message={message.content} type="info" />
                     <div
                       onClick={() => setLikedAdmin(!likedAdmin)}
-                      style={{ marginTop: "20px" }}
+                      style={{ marginTop: "10px" }}
                     >
                       {likedAdmin ? (
                         <HeartFilled style={{ color: "red" }} />
