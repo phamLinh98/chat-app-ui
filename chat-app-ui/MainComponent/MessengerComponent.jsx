@@ -51,11 +51,9 @@ const MessengerComponent = () => {
   return (
     <>
       {sortedContents.map((message) => {
-        const isReceiver = message.name === namelogin;
-        const isSender = message.name === userNow.namelogin;
-
+        const isSender = message.name === namelogin;
+        const isReceiver = message.name === userNow.namelogin;
         if (!isSender && !isReceiver) return null; // Không phải là người gửi hoặc nhận
-
         return (
           <Row key={message.key} justify={isSender ? "start" : "end"}>
             {/* nếu giá trị mà kiểm tra đúng là là namelogin thì vã nó là start còn không thì là end */}
@@ -67,10 +65,10 @@ const MessengerComponent = () => {
                   justifyContent: isSender ? "flex-start" : "flex-end", // Căn lề trái hoặc phải dựa trên người gửi
                 }}
               >
-                {isSender && (
+                {isReceiver && (
                   <>
                     <HeartOutlined />
-                    <AlertComponent message={message.content} type="info" />
+                    <AlertComponent message={message.content} type="error" />
                     <SmallAvatarComponent
                       size={18}
                       color="red"
@@ -79,7 +77,7 @@ const MessengerComponent = () => {
                     />
                   </>
                 )}
-                {isReceiver && (
+                {isSender && (
                   <>
                     <SmallAvatarComponent
                       size={18}
@@ -87,7 +85,7 @@ const MessengerComponent = () => {
                       color="orange"
                       src={userNow.avatar}
                     />
-                    <AlertComponent message={message.content} type="error" />
+                    <AlertComponent message={message.content} type="info" />
                     <HeartOutlined />
                   </>
                 )}
