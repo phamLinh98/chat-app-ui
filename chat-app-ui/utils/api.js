@@ -44,6 +44,32 @@ export const getDataFollowNameLogin = async (route) => {
   return data;
 };
 
+export const getChatDoubleUser = async (route, namelogin1, namelogin2) => {
+  const url = `${envConfig.host}${route}`;; // URL API backend của bạn
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        namelogin1: namelogin1,
+        namelogin2: namelogin2,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; // Trả về dữ liệu nhận được từ backend
+  } catch (error) {
+    console.error("Error fetching chat data:", error);
+    return null; // Xử lý lỗi nếu có
+  }
+};
+
 export const post = async (route, data) => {
   const url = `${envConfig.host}${route}`;
   return fetch(url, {

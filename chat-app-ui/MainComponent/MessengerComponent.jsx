@@ -5,7 +5,7 @@ import { HeartOutlined } from "@ant-design/icons";
 import { SmallAvatarComponent } from "../SideComponent/AvatarComponent";
 // import CryptoJS from "crypto-js";
 import useSWR from "swr";
-import { get } from "../utils/api";
+import { get, getChatDoubleUser } from "../utils/api";
 import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
 
 const MessengerComponent = () => {
@@ -13,60 +13,89 @@ const MessengerComponent = () => {
   const fetcher = (url) => get(url).then((res) => res.json());
   // eslint-disable-next-line no-unused-vars
   const { data: itemsData, error } = useSWR("/api/info", fetcher);
-  
+
   const { namelogin, avatar } = getDataFromLocalStorage();
 
   const getUserNameById = (userId) => {
     const user = itemsData.find((item) => String(item.id) === String(userId));
     return user
-      ? { nameshow: user.nameshow, avatar: user.avatar }
+      ? {
+          nameshow: user.nameshow,
+          avatar: user.avatar,
+          namelogin: user.namelogin,
+        }
       : "User Not Exist";
   };
 
   const userNow = getUserNameById(userId);
+  // Sử dụng useSWR với getChatDoubleUser
+  const { data: chatData, error: chatError } = useSWR(
+    [`/api/get-chat-double-user`, namelogin, userNow.namelogin],
+    ([route, namelogin1, namelogin2]) =>
+      getChatDoubleUser(route, namelogin1, namelogin2)
+  );
+
+  // Xử lý lỗi hoặc chờ dữ liệu
+  if (error || chatError) {
+    return <div>Error loading data...</div>;
+  }
+
+  if (!itemsData || !chatData) {
+    return <div>Loading...</div>;
+  }
+
+  const sortedContents = Array.isArray(chatData.contents)
+    ? chatData.contents.sort((a, b) => a.time - b.time)
+    : [];
 
   return (
     <>
-      <Row justify="start">
-        <Col span={6}>
-          <div
-            style={{
-              display: "flex",
-              gap: "6px",
-              justifyContent: "flex-start", // Đảm bảo căn lề trái
-            }}
-          >
-            <SmallAvatarComponent
-              size={18}
-              icon={userNow.nameshow.charAt(0)}
-              color="orange"
-              src={userNow.avatar}
-            />
-            <AlertComponent message={"Ok em ơi"} type="error" />
-            <HeartOutlined />
-          </div>
-        </Col>
-      </Row>
-      <Row justify="end">
-        <Col span={6}>
-          <div
-            style={{
-              display: "flex",
-              gap: "6px",
-              justifyContent: "flex-end", // Căn lề phải
-            }}
-          >
-            <HeartOutlined />
-            <AlertComponent message={"Ok anh ơi"} type="info" />
-            <SmallAvatarComponent
-              size={18}
-              color="red"
-              icon={namelogin.charAt(0)}
-              src={avatar}
-            />
-          </div>
-        </Col>
-      </Row>
+      {sortedContents.map((message) => {
+        const isReceiver = message.name === namelogin;
+        const isSender = message.name === userNow.namelogin;
+
+        if (!isSender && !isReceiver) return null; // Không phải là người gửi hoặc nhận
+
+        return (
+          <Row key={message.key} justify={isSender ? "start" : "end"}>
+            {/* nếu giá trị mà kiểm tra đúng là là namelogin thì vã nó là start còn không thì là end */}
+            <Col span={6}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "6px",
+                  justifyContent: isSender ? "flex-start" : "flex-end", // Căn lề trái hoặc phải dựa trên người gửi
+                }}
+              >
+                {isSender && (
+                  <>
+                    <HeartOutlined />
+                    <AlertComponent message={message.content} type="info" />
+                    <SmallAvatarComponent
+                      size={18}
+                      color="red"
+                      icon={namelogin.charAt(0)}
+                      src={avatar}
+                    />
+                  </>
+                )}
+                {isReceiver && (
+                  <>
+                    <SmallAvatarComponent
+                      size={18}
+                      icon={userNow.nameshow.charAt(0)}
+                      color="orange"
+                      src={userNow.avatar}
+                    />
+                    <AlertComponent message={message.content} type="error" />
+                    <HeartOutlined />
+                  </>
+                )}
+              </div>
+            </Col>
+          </Row>
+        );
+      })}
     </>
   );
 };
