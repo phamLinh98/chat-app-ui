@@ -1,23 +1,24 @@
 import { Col, Row } from "antd";
 import AlertComponent from "../SideComponent/AlertComponent";
 import { useParams } from "react-router-dom";
-import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { SmallAvatarComponent } from "../SideComponent/AvatarComponent";
 // import CryptoJS from "crypto-js";
 import useSWR from "swr";
 import { get, getChatDoubleUser } from "../utils/api";
 import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
-import { useState } from "react";
-// import { useState } from "react";
+import { findChatIndex } from "../utils/findIndexUser";
+import { useContext, useEffect } from "react";
+import { SortedContentsContext } from './SortedContentsContext';
 
 const MessengerComponent = () => {
   // const [liked, setLiked] = useState(false);
   const { userId } = useParams();
-  const [likedUser, setLikedUser] = useState(false);
-  const [likedAdmin, setLikedAdmin] = useState(false);
   const fetcher = (url) => get(url).then((res) => res.json());
   const { data: itemsData, error } = useSWR("/api/info", fetcher);
 
+  //Get list data chatData
+  // eslint-disable-next-line no-unused-vars
+  const {data:chatDataTable, error:chatDataTableError} = useSWR("/api/chat", fetcher); // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
 
   const getUserNameById = (userId) => {
@@ -38,6 +39,16 @@ const MessengerComponent = () => {
     ([route, namelogin1, namelogin2]) =>
       getChatDoubleUser(route, namelogin1, namelogin2)
   );
+
+  const chatIndex = findChatIndex(chatDataTable, namelogin, userNow.namelogin); // tim ptu thu may trong mang
+
+  // eslint-disable-next-line no-unused-vars
+  const { index, setIndex } = useContext(SortedContentsContext);
+  useEffect(() => {
+    if (chatIndex) {
+      setIndex(chatIndex); // Cập nhật sortedContents vào Context
+    }
+  }, [chatIndex, setIndex]);
 
   // Xử lý lỗi hoặc chờ dữ liệu
   if (error || chatError) {
@@ -71,16 +82,6 @@ const MessengerComponent = () => {
               >
                 {isReceiver && (
                   <>
-                    <div
-                      onClick={() => setLikedUser(!likedUser)}
-                      style={{ marginTop: "10px" }}
-                    >
-                      {likedUser ? (
-                        <HeartFilled style={{ color: "red" }} />
-                      ) : (
-                        <HeartOutlined />
-                      )}
-                    </div>
                     <AlertComponent message={message.content} type="error" />
                     <SmallAvatarComponent
                       size={18}
@@ -99,16 +100,6 @@ const MessengerComponent = () => {
                       src={userNow.avatar}
                     />
                     <AlertComponent message={message.content} type="info" />
-                    <div
-                      onClick={() => setLikedAdmin(!likedAdmin)}
-                      style={{ marginTop: "10px" }}
-                    >
-                      {likedAdmin ? (
-                        <HeartFilled style={{ color: "red" }} />
-                      ) : (
-                        <HeartOutlined />
-                      )}
-                    </div>
                   </>
                 )}
               </div>

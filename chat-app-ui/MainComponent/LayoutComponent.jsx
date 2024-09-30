@@ -9,11 +9,13 @@ import CryptoJS from "crypto-js";
 import useSWR from "swr";
 import { get, getDataFollowNameLogin } from "../utils/api";
 import SpinComponent from "../SideComponent/SpinComponent";
+import { SortedContentsProvider } from "./SortedContentsContext";
 const { Sider } = Layout;
 const secretKey = import.meta.env.VITE_DOMAIN;
 
 const fetcherDashboard = (url) => get(url).then((res) => res.json());
-const fetcherChatNameLogin = (url) => getDataFollowNameLogin(url).then((res) => res.json());
+const fetcherChatNameLogin = (url) =>
+  getDataFollowNameLogin(url).then((res) => res.json());
 
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
@@ -26,7 +28,10 @@ export const LayoutComponent = () => {
   const userLoginSuccess = JSON.parse(decryptedAuth);
 
   const { data: dataDashboard } = useSWR("/api/info", fetcherDashboard);
-  const { data: dataChat} = useSWR("/api/chat-follow-namelogin", fetcherChatNameLogin);
+  const { data: dataChat } = useSWR(
+    "/api/chat-follow-namelogin",
+    fetcherChatNameLogin
+  );
 
   if (!dataDashboard || !dataChat)
     return (
@@ -37,25 +42,27 @@ export const LayoutComponent = () => {
 
   return (
     <ItemContext.Provider value={{ userLoginSuccess, dataDashboard, dataChat }}>
-      <Layout
-        style={{
-          minHeight: "100vh",
-        }}
-      >
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
+      <SortedContentsProvider>
+        <Layout
+          style={{
+            minHeight: "100vh",
+          }}
         >
-          <div className="demo-logo-vertical" />
-          <DashboardComponent loginUser={userLoginSuccess} />
-        </Sider>
-        <Layout>
-          <HeaderComponent loginUser={userLoginSuccess} />
-          <Outlet />
-          <FooterComponent />
+          <Sider
+            collapsible
+            collapsed={collapsed}
+            onCollapse={(value) => setCollapsed(value)}
+          >
+            <div className="demo-logo-vertical" />
+            <DashboardComponent loginUser={userLoginSuccess} />
+          </Sider>
+          <Layout>
+            <HeaderComponent loginUser={userLoginSuccess} />
+            <Outlet />
+            <FooterComponent />
+          </Layout>
         </Layout>
-      </Layout>
+      </SortedContentsProvider>
     </ItemContext.Provider>
   );
 };
