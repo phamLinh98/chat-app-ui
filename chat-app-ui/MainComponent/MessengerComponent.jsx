@@ -14,18 +14,22 @@ const MessengerComponent = () => {
   // const [liked, setLiked] = useState(false);
   const { userId } = useParams();
   const fetcher = (url) => get(url).then((res) => res.json());
-  const { data: itemsData, error } = useSWR("/api/info", fetcher);
+  const { data: infoUserFromTableInfo, error } = useSWR("/api/info", fetcher);
 
-  //Get list data chatData
+  //Get list data chatDataFromTableChat
   // eslint-disable-next-line no-unused-vars
-  const { data: chatDataTable, error: chatDataTableError } = useSWR(
+  const { data: chatDataFromTableChat, error: chatDataFromTableChatError } = useSWR(
     "/api/chat",
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 500
+    }
   ); // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
-
+  
+  // Lấy userName từ Id 
   const getUserNameById = (userId) => {
-    const user = itemsData.find((item) => String(item.id) === String(userId));
+    const user = infoUserFromTableInfo.find((item) => String(item.id) === String(userId));
     return user
       ? {
           nameshow: user.nameshow,
@@ -34,17 +38,19 @@ const MessengerComponent = () => {
         }
       : "User Not Exist";
   };
+  
+  // Kiểm tra user nào đang được click 
+  const userClickNow = getUserNameById(userId);
 
-  const userNow = getUserNameById(userId);
   // Sử dụng useSWR với getChatDoubleUser
-  const { data: chatData, error: chatError } = useSWR(
-    [`/api/get-chat-double-user`, namelogin, userNow.namelogin],
+  const { data: contextUserLoginAndUserClicked, error: chatError } = useSWR(
+    [`/api/get-chat-double-user`, namelogin, userClickNow.namelogin],
     ([route, namelogin1, namelogin2]) =>
       getChatDoubleUser(route, namelogin1, namelogin2)
   );
 
-  const chatIndex =
-    findChatIndex(chatDataTable, namelogin, userNow.namelogin);
+  // Tìm kiếm Chat Index từ DB thông qua tài khoản login và user chỉ định từ dashboard
+  const chatIndex = findChatIndex(chatDataFromTableChat, namelogin, userClickNow.namelogin);
 
   // eslint-disable-next-line no-unused-vars
   const { indexfind, setIndex } = useContext(SortedContentsContext);
@@ -59,19 +65,19 @@ const MessengerComponent = () => {
     return <div>Error loading data...</div>;
   }
 
-  if (!itemsData || !chatData) {
+  if (!infoUserFromTableInfo || !contextUserLoginAndUserClicked) {
     return <div>Loading...</div>;
   }
 
-  const sortedContents = Array.isArray(chatData.contents)
-    ? chatData.contents.sort((a, b) => a.time - b.time)
+  const sortedContents = Array.isArray(contextUserLoginAndUserClicked.contents)
+    ? contextUserLoginAndUserClicked.contents.sort((a, b) => a.time - b.time)
     : [];
 
   return (
     <>
       {sortedContents.map((message) => {
         const isSender = message.name === namelogin;
-        const isReceiver = message.name === userNow.namelogin;
+        const isReceiver = message.name === userClickNow.namelogin;
         if (!isSender && !isReceiver) return null; // Không phải là người gửi hoặc nhận
         return (
           <Row key={message.key} justify={isSender ? "start" : "end"}>
@@ -99,9 +105,9 @@ const MessengerComponent = () => {
                   <>
                     <SmallAvatarComponent
                       size={18}
-                      icon={userNow.nameshow.charAt(0)}
+                      icon={userClickNow.nameshow.charAt(0)}
                       color="orange"
-                      src={userNow.avatar}
+                      src={userClickNow.avatar}
                     />
                     <AlertComponent message={message.content} type="info" />
                   </>
