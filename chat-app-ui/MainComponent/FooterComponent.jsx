@@ -15,9 +15,9 @@ export const FooterComponent = () => {
     CryptoJS.enc.Utf8
   );
   const loginUserInfo = JSON.parse(decryptedAuth);
-  const { id, name, avatar, namelogin } = loginUserInfo;
+  const { name, avatar, namelogin } = loginUserInfo;
   const { indexfind } = useContext(SortedContentsContext);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(""); // State để lưu nội dung nhập
 
   const handleInputChange = (value) => {
     setContent(value); // Cập nhật giá trị nhập
@@ -31,12 +31,11 @@ export const FooterComponent = () => {
       avatar: avatar,
       name: namelogin,
       content: content,
-      isUser: id,
     };
 
     try {
       const result = await postChatData("/api/add-chat", data); // Gọi API để submit tin nhắn
-      console.log("Message sent successfully:", result);
+      console.log("Gửi tin nhắn thành công:", result);
       setContent(""); // Clear input after successful submission
     } catch (error) {
       console.error("Error sending message:", error);
@@ -54,9 +53,10 @@ export const FooterComponent = () => {
             src={avatar}
           />
           <InputComponent
+            value={content} // Truyền giá trị của input xuống InputComponent
             placeholder="Hãy nhập tin nhắn"
             onInputChange={handleInputChange}
-            onSubmit={handleSubmit} // Submit when the user presses enter or clicks "Gửi"
+            onSubmit={handleSubmit} // Submit khi người dùng nhấn "Enter" hoặc click "Gửi"
           />
         </div>
       ) : (

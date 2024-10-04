@@ -8,7 +8,7 @@ import { get, getChatDoubleUser } from "../utils/api";
 import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
 import { findChatIndex } from "../utils/findIndexUser";
 import { useContext, useEffect } from "react";
-import { SortedContentsContext } from './SortedContentsContext';
+import { SortedContentsContext } from "./SortedContentsContext";
 
 const MessengerComponent = () => {
   // const [liked, setLiked] = useState(false);
@@ -18,7 +18,10 @@ const MessengerComponent = () => {
 
   //Get list data chatData
   // eslint-disable-next-line no-unused-vars
-  const {data:chatDataTable, error:chatDataTableError} = useSWR("/api/chat", fetcher); // get data chat table
+  const { data: chatDataTable, error: chatDataTableError } = useSWR(
+    "/api/chat",
+    fetcher
+  ); // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
 
   const getUserNameById = (userId) => {
@@ -40,13 +43,15 @@ const MessengerComponent = () => {
       getChatDoubleUser(route, namelogin1, namelogin2)
   );
 
-  const chatIndex = findChatIndex(chatDataTable, namelogin, userNow.namelogin); // tim ptu thu may trong mang
+  const chatIndex =
+    findChatIndex(chatDataTable, namelogin, userNow.namelogin);
+  console.log("chatIndex :>> ", chatIndex);
 
   // eslint-disable-next-line no-unused-vars
-  const { index, setIndex } = useContext(SortedContentsContext);
+  const { indexfind, setIndex } = useContext(SortedContentsContext);
   useEffect(() => {
     if (chatIndex) {
-      setIndex(chatIndex); // Cập nhật sortedContents vào Context
+      setIndex(chatIndex);
     }
   }, [chatIndex, setIndex]);
 
