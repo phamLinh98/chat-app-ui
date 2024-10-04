@@ -33,9 +33,6 @@ const LoginComponent = () => {
         namelogin,
         password
       );
-      console.log("userDataGet :>> ", userDataGet);
-      const { nameshow } = userDataGet;
-      console.log("nameshow :>> ", nameshow);
       const encryptedAuth = CryptoJS.AES.encrypt("true", secretKey).toString();
       localStorage.setItem("isAuthenticated", encryptedAuth);
 
@@ -47,8 +44,6 @@ const LoginComponent = () => {
         department: userDataGet.department,
         job: userDataGet.job,
       };
-
-      console.log("userData :>> ", userData);
 
       const encryptedUserData = CryptoJS.AES.encrypt(
         JSON.stringify(userData),

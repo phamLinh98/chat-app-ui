@@ -45,7 +45,6 @@ const MessengerComponent = () => {
 
   const chatIndex =
     findChatIndex(chatDataTable, namelogin, userNow.namelogin);
-  console.log("chatIndex :>> ", chatIndex);
 
   // eslint-disable-next-line no-unused-vars
   const { indexfind, setIndex } = useContext(SortedContentsContext);
