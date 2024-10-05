@@ -33,7 +33,7 @@ export const HeaderComponent = ({ loginUser }) => {
     );
     if (otherUser) {
       return {
-        userId: otherUser.id,
+        userId: otherUser.userIdSending,
         name: getNameShowFromNameLogin(otherUser.name),
         avatar: otherUser.avatar,
       };
