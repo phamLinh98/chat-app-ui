@@ -34,8 +34,7 @@ export const FooterComponent = () => {
     };
 
     try {
-      const result = await postChatData("/api/add-chat", data); // Gọi API để submit tin nhắn
-      console.log("Gửi tin nhắn thành công:", result);
+      await postChatData("/api/add-chat", data); // Gọi API để submit tin nhắn
       setContent(""); // Clear input after successful submission
     } catch (error) {
       console.error("Error sending message:", error);

@@ -65,6 +65,7 @@ const MessengerComponent = () => {
     return <div>Error loading data...</div>;
   }
 
+   //Nếu data chưa được fetch thành công thì Loading...
   if (!infoUserFromTableInfo || !contextUserLoginAndUserClicked) {
     return <div>Loading...</div>;
   }
