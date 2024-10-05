@@ -15,8 +15,8 @@ const FormComponent = ({ children }) => (
     title={nameCompany}
     bordered={false}
     style={{
-      width: "400px",
-      marginTop: "100px",
+      width: "395px",
+      marginTop: "85px",
     }}
   >
     {children}
