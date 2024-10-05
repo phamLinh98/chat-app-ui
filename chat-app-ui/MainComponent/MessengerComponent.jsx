@@ -2,7 +2,6 @@ import { Col, Row } from "antd";
 import AlertComponent from "../SideComponent/AlertComponent";
 import { useParams } from "react-router-dom";
 import { SmallAvatarComponent } from "../SideComponent/AvatarComponent";
-// import CryptoJS from "crypto-js";
 import useSWR from "swr";
 import { get, getChatDoubleUser } from "../utils/api";
 import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
@@ -42,10 +41,10 @@ const MessengerComponent = () => {
   const userClickNow = getUserNameById(userId);
 
   // Sử dụng useSWR với getChatDoubleUser
-  const { data: contextUserLoginAndUserClicked, error: chatError } = useSWR(
+  const { data: contextUserLoginAndUserClicked, mutate, error: chatError } = useSWR(
     [`/api/get-chat-double-user`, namelogin, userClickNow.namelogin],
     ([route, namelogin1, namelogin2]) =>
-      getChatDoubleUser(route, namelogin1, namelogin2)
+      mutate(getChatDoubleUser(route, namelogin1, namelogin2))
   );
 
   // Tìm kiếm Chat Index từ DB thông qua tài khoản login và user chỉ định từ dashboard
