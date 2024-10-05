@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Avatar, Input, Modal, Space } from "antd";
 import { useNavigate } from "react-router-dom";
+import { PiWarningCircleBold } from "react-icons/pi";
+import { GrStatusGood } from "react-icons/gr";
 // import { UserOutlined } from "@ant-design/icons";
 export const SiginInComponent = () => {
   const [open, setOpen] = useState(true);
@@ -35,83 +37,155 @@ export const SiginInComponent = () => {
               <Space direction="vertical" size="middle">
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="Employeer Code"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <PiWarningCircleBold style={{ color: "red" }} />
+                  </div>
                 </Space.Compact>
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="User Name"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <GrStatusGood style={{ color: "green" }} />
+                  </div>
                 </Space.Compact>
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="Email"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <GrStatusGood style={{ color: "green" }} />
+                  </div>
                 </Space.Compact>
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="Department"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <GrStatusGood style={{ color: "green" }} />
+                  </div>
                 </Space.Compact>
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="Position"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <GrStatusGood style={{ color: "green" }} />
+                  </div>
                 </Space.Compact>
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="Login Name"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <GrStatusGood style={{ color: "green" }} />
+                  </div>
                 </Space.Compact>
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="Password"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <GrStatusGood style={{ color: "green" }} />
+                  </div>
                 </Space.Compact>
                 <Space.Compact>
                   <Input
-                    style={{ width: "50%", textAlign: "center" }}
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      backgroundColor: "#E6F4FF",
+                      color: "black",
+                    }}
                     defaultValue="Re-Password"
+                    disabled
                   />
                   <Input
-                    style={{ width: "50%" }}
+                    style={{ width: "50%", marginRight: "5px" }}
                     placeholder="Nhập thông tin..."
                   />
+                  <div style={{ marginTop: "5px" }}>
+                    <GrStatusGood style={{ color: "green" }} />
+                  </div>
                 </Space.Compact>
               </Space>
             </div>
@@ -121,7 +195,7 @@ export const SiginInComponent = () => {
                 style={{ display: "flex", flexDirection: "column", gap: "4px" }}
               >
                 <Avatar
-                  size={200}
+                  size={150}
                   src={
                     "https://rrdarlkddjxzqbcojwdc.supabase.co/storage/v1/object/public/image/demo.jpg"
                   }
@@ -130,7 +204,7 @@ export const SiginInComponent = () => {
                 />
                 <b style={{ textAlign: "center" }}>Choose Avatar</b>
                 <div
-                  style={{ display: "flex", gap: "5px", marginLeft: "30px" }}
+                  style={{ display: "flex", gap: "5px", marginLeft: "15px" }}
                 >
                   <Avatar
                     size="large"

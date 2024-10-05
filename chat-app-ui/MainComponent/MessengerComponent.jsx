@@ -18,18 +18,17 @@ const MessengerComponent = () => {
 
   //Get list data chatDataFromTableChat
   // eslint-disable-next-line no-unused-vars
-  const { data: chatDataFromTableChat, error: chatDataFromTableChatError } = useSWR(
-    "/api/chat",
-    fetcher,
-    {
-      refreshInterval: 500
-    }
-  ); // get data chat table
+  const { data: chatDataFromTableChat, error: chatDataFromTableChatError } =
+    useSWR("/api/chat", fetcher, {
+      refreshInterval: 500,
+    }); // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
-  
-  // Lấy userName từ Id 
+
+  // Lấy userName từ Id
   const getUserNameById = (userId) => {
-    const user = infoUserFromTableInfo.find((item) => String(item.id) === String(userId));
+    const user = infoUserFromTableInfo.find(
+      (item) => String(item.id) === String(userId)
+    );
     return user
       ? {
           nameshow: user.nameshow,
@@ -38,8 +37,8 @@ const MessengerComponent = () => {
         }
       : "User Not Exist";
   };
-  
-  // Kiểm tra user nào đang được click 
+
+  // Kiểm tra user nào đang được click
   const userClickNow = getUserNameById(userId);
 
   // Sử dụng useSWR với getChatDoubleUser
@@ -50,7 +49,11 @@ const MessengerComponent = () => {
   );
 
   // Tìm kiếm Chat Index từ DB thông qua tài khoản login và user chỉ định từ dashboard
-  const chatIndex = findChatIndex(chatDataFromTableChat, namelogin, userClickNow.namelogin);
+  const chatIndex = findChatIndex(
+    chatDataFromTableChat,
+    namelogin,
+    userClickNow.namelogin
+  );
 
   // eslint-disable-next-line no-unused-vars
   const { indexfind, setIndex } = useContext(SortedContentsContext);
@@ -65,7 +68,7 @@ const MessengerComponent = () => {
     return <div>Error loading data...</div>;
   }
 
-   //Nếu data chưa được fetch thành công thì Loading...
+  //Nếu data chưa được fetch thành công thì Loading...
   if (!infoUserFromTableInfo || !contextUserLoginAndUserClicked) {
     return <div>Loading...</div>;
   }
@@ -93,7 +96,7 @@ const MessengerComponent = () => {
               >
                 {isReceiver && (
                   <>
-                    <AlertComponent message={message.content} type="error" />
+                      <AlertComponent message={message.content} type="error" />
                     <SmallAvatarComponent
                       size={18}
                       color="red"
@@ -110,7 +113,7 @@ const MessengerComponent = () => {
                       color="orange"
                       src={userClickNow.avatar}
                     />
-                    <AlertComponent message={message.content} type="info" />
+                      <AlertComponent message={message.content} type="info" />
                   </>
                 )}
               </div>
