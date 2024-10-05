@@ -1,7 +1,12 @@
 import { Card } from "antd";
 
 const nameCompany = (
-  <p style={{ textAlign: "center", margin: 0 }}>PROTERIAL COMPANY</p>
+  <img
+    src={
+      "https://rrdarlkddjxzqbcojwdc.supabase.co/storage/v1/object/public/image/4444.png"
+    }
+    style={{ height: "105px", width: "345px", borderRadius: "5px", border: "1px solid"}}
+  />
 );
 
 // eslint-disable-next-line react/prop-types
