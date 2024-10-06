@@ -15,36 +15,45 @@ import { ItemContext } from "./LayoutComponent";
 export const DashboardComponent = ({ loginUser }) => {
   const { userId } = useParams();
   const navigate = useNavigate();
-  const data = useContext(ItemContext);
 
-  // get info login user now from local storage
-  const userLoginSuccessName = data.userLoginSuccess.namelogin;
-  const userLoginSuccessAvatar = data.userLoginSuccess.avatar;
+  //Dữ liệu truyền xuống từ ItemContext xuống các component con 
+  const dataGetFromItemContext = useContext(ItemContext);
 
-  const dataChat = data.dataChat;
-  const getDataFromUserList = data.dataDashboard;
+  // Lấy thông tin login user đăng nhập từ ItemContext
+  const userLoginSuccessName = dataGetFromItemContext.userLoginSuccess.namelogin;
+  const userLoginSuccessAvatar = dataGetFromItemContext.userLoginSuccess.avatar;
 
+  //Lấy toàn bộ nội dung các cuộc trò chuyện hiện tại trong hệ thống
+  const allChatContentsNow = dataGetFromItemContext.dataChat; 
 
+  //Lấy toàn bộ thông tin của toàn bộ user trong hệ thống
+  const getDataUserInfoChatWithLoginUser = dataGetFromItemContext.dataDashboard;
+
+  // Lấy tên hiển thị của User thông qua tên đăng nhập của họ
   const getNameShowFromNameLogin = (namelogin) => {
-    const nameShow = getDataFromUserList.find(
+    const nameShow = getDataUserInfoChatWithLoginUser.find(
       (item) => item.namelogin === namelogin
     );
     return nameShow ? nameShow.nameshow : "null";
   };
-
-  const currentChats = dataChat.filter((conversation) =>
+   
+  // Từ toàn bộ các cuộc trò chuyện, lọc ra những cuộc trò chuyện chỉ của login user với những user khác
+  const chatContentOfLoginUserWithOther = allChatContentsNow.filter((conversation) =>
     conversation.user.includes(loginUser.namelogin)
   );
 
-  const userInfoListAfterFlat = currentChats.flatMap((conversation) => {
-    const otherUser = conversation.contents.find(
+  // Lấy thông tin user phục vụ mục đích hiển thị lên dashboard (user nameshow và avatar)
+  const userInfoRenderToDashboard = chatContentOfLoginUserWithOther.flatMap((conversation) => {
+    const userInfo = conversation.contents.find(
       (content) => content.name !== loginUser.namelogin
     );
-    if (otherUser) {
+
+    if (userInfo) {
       return {
-        userId: otherUser.userIdSending,
-        name: getNameShowFromNameLogin(otherUser.name),
-        avatar: otherUser.avatar,
+        userId: userInfo.userIdSending, // userId để phục vụ router chuyển trang
+        name: getNameShowFromNameLogin(userInfo.name),
+        avatar: userInfo.avatar,
+        namelogin:userInfo.name
       };
     }
     return [];
@@ -69,7 +78,7 @@ export const DashboardComponent = ({ loginUser }) => {
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["1"]}
         mode="inline"
-        selectedKeys={[userId]}
+        selectedKeys={[userId]} // cái này để chỉ rõ menu nào đang được chọn , hover ko lq route
       >
         <SubMenu
           key="sub1"
@@ -77,7 +86,7 @@ export const DashboardComponent = ({ loginUser }) => {
           title="Messenger"
           style={{ alignItems: "center" }}
         >
-          {userInfoListAfterFlat.map((user) => (
+          {userInfoRenderToDashboard.map((user) => (
             <Menu.Item
               key={user.userId} // Sử dụng ID người dùng làm key
               style={{

@@ -15,6 +15,7 @@ export const HeaderComponent = ({ loginUser }) => {
   const { userId } = useParams();
   const data = useContext(ItemContext);
   const getDataFromUserList = data.dataDashboard;
+  console.log('getDataFromUserList :>> ', getDataFromUserList);
   const dataChat = data.dataChat;
   const userLoginName = data.userLoginSuccess.name;
 
