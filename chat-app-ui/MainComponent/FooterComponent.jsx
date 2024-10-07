@@ -3,7 +3,7 @@ import InputComponent from "../SideComponent/InputComponent";
 import { useParams } from "react-router-dom";
 import AvatarComponent from "../SideComponent/AvatarComponent";
 import CryptoJS from "crypto-js";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
 import { get, postChatData } from "../utils/api";
 import useSWR from "swr";
@@ -19,7 +19,10 @@ export const FooterComponent = () => {
   const { name, avatar, namelogin } = loginUserInfo;
   const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState(""); // State để lưu nội dung nhập
-  const {data, mutate} = useSWR("/api/chat", get);
+  const {data:chatDataFromTableChat, error, mutate} = useSWR("/api/chat", get, {
+  refreshInterval: 500, // Lấy dữ liệu mới mỗi 5 giây
+});
+
   const handleInputChange = (value) => {
     setContent(value); // Cập nhật giá trị nhập
   };
@@ -35,12 +38,8 @@ export const FooterComponent = () => {
     };
 
     try {
-      await mutate(postChatData("/api/add-chat", newData),{
-        optimisticData:[...data, newData ],
-        rollbackOnError:true,
-        populateCache:true,
-        revalidate:false
-      }); // Gọi API để submit tin nhắn
+      await postChatData("/api/add-chat", newData); // Gọi API để submit tin nhắn
+      mutate("/api/chat");
       setContent(""); // Clear input after successful submission
     } catch (error) {
       console.error("Error sending message:", error);

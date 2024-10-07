@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { get, getChatDoubleUser } from "../utils/api";
 import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
 import { findChatIndex } from "../utils/findIndexUser";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
 
 const MessengerComponent = () => {
@@ -14,13 +14,11 @@ const MessengerComponent = () => {
   const { userId } = useParams();
   const fetcher = (url) => get(url).then((res) => res.json());
   const { data: infoUserFromTableInfo, error } = useSWR("/api/info", fetcher);
-
   //Get list data chatDataFromTableChat
   // eslint-disable-next-line no-unused-vars
-  const { data: chatDataFromTableChat, error: chatDataFromTableChatError } =
-    useSWR("/api/chat", fetcher, {
-      refreshInterval: 500,
-    }); // get data chat table
+  const { data: chatDataFromTableChat, error: chatDataFromTableChatError } = useSWR("/api/chat", fetcher); 
+
+  // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
 
   // Lấy userName từ Id
@@ -41,10 +39,10 @@ const MessengerComponent = () => {
   const userClickNow = getUserNameById(userId);
 
   // Sử dụng useSWR với getChatDoubleUser
-  const { data: contextUserLoginAndUserClicked, mutate, error: chatError } = useSWR(
+  const { data: contextUserLoginAndUserClicked, error: chatError } = useSWR(
     [`/api/get-chat-double-user`, namelogin, userClickNow.namelogin],
     ([route, namelogin1, namelogin2]) =>
-      mutate(getChatDoubleUser(route, namelogin1, namelogin2))
+      getChatDoubleUser(route, namelogin1, namelogin2)
   );
 
   // Tìm kiếm Chat Index từ DB thông qua tài khoản login và user chỉ định từ dashboard
