@@ -20,7 +20,7 @@ export const FooterComponent = () => {
   const { name, avatar, namelogin } = loginUserInfo;
   const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState(""); // State để lưu nội dung nhập
-  const {data:chatDataFromTableChat, error} = useSWR("/api/chat", get, {
+  const {data:chatDataFromTableChat, errorerror, mutate} = useSWR("/api/chat", get, {
   refreshInterval: 500, // Lấy dữ liệu mới mỗi 5 giây
 });
 
