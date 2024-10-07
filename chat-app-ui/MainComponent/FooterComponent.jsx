@@ -6,7 +6,7 @@ import CryptoJS from "crypto-js";
 import { useContext, useState, useEffect } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
 import { get, postChatData } from "../utils/api";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 const secretKey = import.meta.env.VITE_DOMAIN;
 
 export const FooterComponent = () => {
