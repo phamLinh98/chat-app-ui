@@ -27,6 +27,14 @@ const MessengerComponent = () => {
   // eslint-disable-next-line no-unused-vars
   const { data: chatDataFromTableChat, error: chatDataFromTableChatError } =
     useSWR("/api/chat", fetcher); 
+
+  const [chatUser, setChatUser] = useState(null);
+
+  useEffect(() => {
+    if (chatDataFromTableChat) {
+      setChatUser(chatDataFromTableChat);
+    }
+  }, [chatDataFromTableChat]);
   
   // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
