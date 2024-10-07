@@ -33,6 +33,7 @@ const MessengerComponent = () => {
   useEffect(() => {
     if (chatDataFromTableChat) {
       setChatUser(chatDataFromTableChat);
+      mutate("/api/chat")
     }
   }, [chatDataFromTableChat]);
   
@@ -67,6 +68,7 @@ const MessengerComponent = () => {
   useEffect(() => {
     if (contextUserLoginAndUserClicked) {
       setClicked(contextUserLoginAndUserClicked);
+      mutate("/api/chat")
     }
   }, [contextUserLoginAndUserClicked]);
 
@@ -82,6 +84,7 @@ const MessengerComponent = () => {
   useEffect(() => {
     if (chatIndex) {
       setIndex(chatIndex);
+      mutate("/api/chat")
     }
   }, [chatIndex, setIndex]);
 
