@@ -35,12 +35,7 @@ export const FooterComponent = () => {
     };
 
     try {
-      await mutate(postChatData("/api/add-chat", newData),{
-        optimisticData:[...data, newData ],
-        rollbackOnError:true,
-        populateCache:true,
-        revalidate:false
-      }); // Gọi API để submit tin nhắn
+      await postChatData("/api/add-chat", newData); // Gọi API để submit tin nhắn
       setContent(""); // Clear input after successful submission
     } catch (error) {
       console.error("Error sending message:", error);
