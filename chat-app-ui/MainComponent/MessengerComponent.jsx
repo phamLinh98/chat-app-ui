@@ -14,8 +14,6 @@ const MessengerComponent = () => {
   const { userId } = useParams();
   const fetcher = (url) => get(url).then((res) => res.json());
   const { data: infoUserFromTableInfo, error } = useSWR("/api/info", fetcher);
-
-  const [infoUser, setInfoUser] = useState(null);
   //Get list data chatDataFromTableChat
   // eslint-disable-next-line no-unused-vars
   const { data: chatDataFromTableChat, error: chatDataFromTableChatError } = useSWR("/api/chat", fetcher); 
