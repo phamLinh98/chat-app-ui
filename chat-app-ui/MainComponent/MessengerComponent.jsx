@@ -63,6 +63,13 @@ const MessengerComponent = () => {
       getChatDoubleUser(route, namelogin1, namelogin2)
   );
 
+  const [clicked, setClicked] = useState(null)
+  useEffect(() => {
+    if (contextUserLoginAndUserClicked) {
+      setClicked(contextUserLoginAndUserClicked);
+    }
+  }, [contextUserLoginAndUserClicked]);
+
   // Tìm kiếm Chat Index từ DB thông qua tài khoản login và user chỉ định từ dashboard
   const chatIndex = findChatIndex(
     chatDataFromTableChat,
