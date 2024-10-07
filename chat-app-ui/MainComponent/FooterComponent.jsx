@@ -19,7 +19,7 @@ export const FooterComponent = () => {
   const { name, avatar, namelogin } = loginUserInfo;
   const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState(""); // State để lưu nội dung nhập
-  const {data:chatDataFromTableChat, error} = useSWR("/api/chat", get, {
+  const {data:chatDataFromTableChat, error, mutate} = useSWR("/api/chat", get, {
   refreshInterval: 500, // Lấy dữ liệu mới mỗi 5 giây
 });
 
@@ -39,6 +39,7 @@ export const FooterComponent = () => {
 
     try {
       await postChatData("/api/add-chat", newData); // Gọi API để submit tin nhắn
+      mutate("/api/chat");
       setContent(""); // Clear input after successful submission
     } catch (error) {
       console.error("Error sending message:", error);
