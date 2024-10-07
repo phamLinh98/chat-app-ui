@@ -11,6 +11,7 @@ const secretKey = import.meta.env.VITE_DOMAIN;
 
 export const FooterComponent = () => {
   const { userId } = useParams();
+  const userClickNow = getUserNameById(userId);
   const encryptedAuth = localStorage.getItem("userData");
   const decryptedAuth = CryptoJS.AES.decrypt(encryptedAuth, secretKey).toString(
     CryptoJS.enc.Utf8
@@ -47,7 +48,7 @@ export const FooterComponent = () => {
     try {
       await postChatData("/api/add-chat", newData); // Gọi API để submit tin nhắn
       setContent(""); // Clear input after successful submission
-      mutate("/api/chat");
+      mutate([`/api/get-chat-double-user`, namelogin, userClickNow?.namelogin]);
     } catch (error) {
       console.error("Error sending message:", error);
     }
