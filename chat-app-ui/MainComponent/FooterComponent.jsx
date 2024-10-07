@@ -40,7 +40,6 @@ export const FooterComponent = () => {
     try {
       await postChatData("/api/add-chat", newData); // Gọi API để submit tin nhắn
       setContent(""); // Clear input after successful submission
-      mutate("/api/chat");
     } catch (error) {
       console.error("Error sending message:", error);
     }
