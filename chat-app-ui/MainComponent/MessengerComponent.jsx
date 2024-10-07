@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { get, getChatDoubleUser } from "../utils/api";
 import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
 import { findChatIndex } from "../utils/findIndexUser";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
 
 const MessengerComponent = () => {
@@ -15,12 +15,20 @@ const MessengerComponent = () => {
   const fetcher = (url) => get(url).then((res) => res.json());
   const { data: infoUserFromTableInfo, error } = useSWR("/api/info", fetcher);
 
+  const [infoUser, setInfoUser] = useState(null);
+
+  useEffect(() => {
+    if (infoUserFromTableInfo) {
+      setInfoUser(infoUserFromTableInfo);
+    }
+  }, [infoUserFromTableInfo]);
+
   //Get list data chatDataFromTableChat
   // eslint-disable-next-line no-unused-vars
   const { data: chatDataFromTableChat, error: chatDataFromTableChatError } =
-    useSWR("/api/chat", fetcher, {
-      refreshInterval: 500,
-    }); // get data chat table
+    useSWR("/api/chat", fetcher); 
+  
+  // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
 
   // Lấy userName từ Id
