@@ -3,7 +3,7 @@ import InputComponent from "../SideComponent/InputComponent";
 import { useParams } from "react-router-dom";
 import AvatarComponent from "../SideComponent/AvatarComponent";
 import CryptoJS from "crypto-js";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
 import { get, postChatData } from "../utils/api";
 import useSWR from "swr";
@@ -19,7 +19,15 @@ export const FooterComponent = () => {
   const { name, avatar, namelogin } = loginUserInfo;
   const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState(""); // State để lưu nội dung nhập
-  const {data, mutate} = useSWR("/api/chat", get);
+  const {data:chatDataFromTableChat, error} = useSWR("/api/chat", get);
+
+  const [chatUser, setChatUser] = useState(null);
+  useEffect(() => {
+    if (chatDataFromTableChat) {
+      setChatUser(chatDataFromTableChat);
+    }
+  }, [chatDataFromTableChat]);
+
   const handleInputChange = (value) => {
     setContent(value); // Cập nhật giá trị nhập
   };
