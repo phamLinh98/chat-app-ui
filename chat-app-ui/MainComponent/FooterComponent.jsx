@@ -6,7 +6,7 @@ import CryptoJS from "crypto-js";
 import { useContext, useState, useEffect } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
 import { get, postChatData } from "../utils/api";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 const secretKey = import.meta.env.VITE_DOMAIN;
 
 export const FooterComponent = () => {
@@ -19,7 +19,9 @@ export const FooterComponent = () => {
   const { name, avatar, namelogin } = loginUserInfo;
   const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState(""); // State để lưu nội dung nhập
-  const {data:chatDataFromTableChat, error} = useSWR("/api/chat", get);
+  const {data:chatDataFromTableChat, error} = useSWR("/api/chat", get, {
+  refreshInterval: 500, // Lấy dữ liệu mới mỗi 5 giây
+});
 
   const [chatUser, setChatUser] = useState(null);
   useEffect(() => {
@@ -45,6 +47,7 @@ export const FooterComponent = () => {
     try {
       await postChatData("/api/add-chat", newData); // Gọi API để submit tin nhắn
       setContent(""); // Clear input after successful submission
+      mutate("/api/chat");
     } catch (error) {
       console.error("Error sending message:", error);
     }
