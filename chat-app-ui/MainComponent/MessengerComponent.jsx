@@ -16,27 +16,10 @@ const MessengerComponent = () => {
   const { data: infoUserFromTableInfo, error } = useSWR("/api/info", fetcher);
 
   const [infoUser, setInfoUser] = useState(null);
-
-  useEffect(() => {
-    if (infoUserFromTableInfo) {
-      setInfoUser(infoUserFromTableInfo);
-    }
-  }, [infoUserFromTableInfo]);
-
   //Get list data chatDataFromTableChat
   // eslint-disable-next-line no-unused-vars
-  const { data: chatDataFromTableChat, error: chatDataFromTableChatError } =
-    useSWR("/api/chat", fetcher); 
+  const { data: chatDataFromTableChat, error: chatDataFromTableChatError } = useSWR("/api/chat", fetcher); 
 
-  const [chatUser, setChatUser] = useState(null);
-
-  useEffect(() => {
-    if (chatDataFromTableChat) {
-      setChatUser(chatDataFromTableChat);
-      mutate("/api/chat")
-    }
-  }, [chatDataFromTableChat]);
-  
   // get data chat table
   const { namelogin, avatar } = getDataFromLocalStorage();
 
@@ -64,14 +47,6 @@ const MessengerComponent = () => {
       getChatDoubleUser(route, namelogin1, namelogin2)
   );
 
-  const [clicked, setClicked] = useState(null)
-  useEffect(() => {
-    if (contextUserLoginAndUserClicked) {
-      setClicked(contextUserLoginAndUserClicked);
-      mutate("/api/chat")
-    }
-  }, [contextUserLoginAndUserClicked]);
-
   // Tìm kiếm Chat Index từ DB thông qua tài khoản login và user chỉ định từ dashboard
   const chatIndex = findChatIndex(
     chatDataFromTableChat,
@@ -84,7 +59,6 @@ const MessengerComponent = () => {
   useEffect(() => {
     if (chatIndex) {
       setIndex(chatIndex);
-      mutate("/api/chat")
     }
   }, [chatIndex, setIndex]);
 
