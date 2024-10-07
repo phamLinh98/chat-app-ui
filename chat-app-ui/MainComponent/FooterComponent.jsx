@@ -11,7 +11,6 @@ const secretKey = import.meta.env.VITE_DOMAIN;
 
 export const FooterComponent = () => {
   const { userId } = useParams();
-  const userClickNow = getUserNameById(userId);
   const encryptedAuth = localStorage.getItem("userData");
   const decryptedAuth = CryptoJS.AES.decrypt(encryptedAuth, secretKey).toString(
     CryptoJS.enc.Utf8
@@ -20,16 +19,9 @@ export const FooterComponent = () => {
   const { name, avatar, namelogin } = loginUserInfo;
   const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState(""); // State để lưu nội dung nhập
-  const {data:chatDataFromTableChat, errorerror, mutate} = useSWR("/api/chat", get, {
+  const {data:chatDataFromTableChat, error} = useSWR("/api/chat", get, {
   refreshInterval: 500, // Lấy dữ liệu mới mỗi 5 giây
 });
-
-  const [chatUser, setChatUser] = useState(null);
-  useEffect(() => {
-    if (chatDataFromTableChat) {
-      setChatUser(chatDataFromTableChat);
-    }
-  }, [chatDataFromTableChat]);
 
   const handleInputChange = (value) => {
     setContent(value); // Cập nhật giá trị nhập
@@ -48,7 +40,7 @@ export const FooterComponent = () => {
     try {
       await postChatData("/api/add-chat", newData); // Gọi API để submit tin nhắn
       setContent(""); // Clear input after successful submission
-      mutate([`/api/get-chat-double-user`, namelogin, userClickNow?.namelogin]);
+      mutate("/api/chat");
     } catch (error) {
       console.error("Error sending message:", error);
     }
