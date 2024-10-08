@@ -3,14 +3,20 @@ import { getDataFromLocalStorage } from "./getDataFromLocalStorage";
 
 export const get = async (route) => {
   const url = `${envConfig.host}${route}`;
-  const data = await fetch(url, {
+  const response = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return data; //dummy data, no phu thuoc hoan toan vao data tu BE
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response;
 };
+
 
 export const getUserLoginIfExists = async (route, namelogin, password) => {
   const url = `${envConfig.host}${route}`;
