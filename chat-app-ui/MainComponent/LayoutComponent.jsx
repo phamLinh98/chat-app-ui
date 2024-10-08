@@ -1,21 +1,16 @@
 /* eslint-disable no-unused-vars */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Layout } from "antd";
 import { DashboardComponent } from "./DashboardComponent";
 import { HeaderComponent } from "./HeaderComponent";
 import { FooterComponent } from "./FooterComponent";
 import { Outlet } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import useSWR from "swr";
-import { get, getDataFollowNameLogin } from "../utils/api";
 import SpinComponent from "../SideComponent/SpinComponent";
 import { SortedContentsProvider } from "./SortedContentsContext";
+import { get, getDataFollowNameLogin } from "../utils/api";
 const { Sider } = Layout;
 const secretKey = import.meta.env.VITE_DOMAIN;
-
-const fetcherDashboard = (url) => get(url).then((res) => res.json());
-const fetcherChatNameLogin = (url) =>
-  getDataFollowNameLogin(url).then((res) => res.json());
 
 export const ItemContext = createContext(null);
 export const LayoutComponent = () => {
@@ -27,11 +22,38 @@ export const LayoutComponent = () => {
 
   const userLoginSuccess = JSON.parse(decryptedAuth);
 
-  const { data: dataDashboard } = useSWR("/api/info", fetcherDashboard);
-  const { data: dataChat } = useSWR(
-    "/api/chat-follow-namelogin",
-    fetcherChatNameLogin
-  );
+  const [dataDashboard, setDataDashboard] = useState(null);
+  const [dataChat, setDataChat] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseDashboard = await get("/api/info")
+        const data = await responseDashboard.json();
+        setDataDashboard(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseChat = await getDataFollowNameLogin("/api/chat-follow-namelogin");
+        const data = await responseChat.json();
+        setDataChat(data);
+      } catch (error) {
+        console.log("error :>> ", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
 
   if (!dataDashboard || !dataChat)
     return (
@@ -59,7 +81,6 @@ export const LayoutComponent = () => {
           <Layout>
             <HeaderComponent loginUser={userLoginSuccess} />
             <Outlet />
-            <FooterComponent />
           </Layout>
         </Layout>
       </SortedContentsProvider>

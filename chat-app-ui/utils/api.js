@@ -68,8 +68,7 @@ export const getChatDoubleUser = async (route, namelogin1, namelogin2) => {
       throw new Error(`Error: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data; // Trả về dữ liệu nhận được từ backend
+    return response; // Trả về dữ liệu nhận được từ backend
   } catch (error) {
     console.error("Error fetching chat data:", error);
     return null; // Xử lý lỗi nếu có
@@ -127,9 +126,8 @@ export const postChatData = async (route, data) => {
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
-
-    const result = await response.json();
-    return result; // Trả về kết quả từ API
+    const dataJson = await response.json();
+    return dataJson; // Trả về kết quả từ API
   } catch (error) {
     console.error("Error posting chat data:", error);
     throw error; // Ném lỗi ra để xử lý ở phía trên
