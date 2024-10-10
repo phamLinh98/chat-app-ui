@@ -22,7 +22,7 @@ export const ContentComponent = () => {
           style={{
             padding: 24,
             minHeight: "650px",
-            backgroundImage: `url('https://rrdarlkddjxzqbcojwdc.supabase.co/storage/v1/object/public/image/123.jpg')`, 
+            backgroundColor: "rgba(255, 255, 255)",
             backgroundSize: "cover", // Optional: to cover the entire div
             backgroundPosition: "center", // Optional: to center the image
             borderRadius: borderRadiusLG,
