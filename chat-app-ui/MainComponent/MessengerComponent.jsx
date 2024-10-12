@@ -55,6 +55,7 @@ const MessengerComponent = () => {
     fetchDataChat();
   }, [namelogin, setContextUserLoginAndUserClicked, userClickNow.namelogin]);
 
+  // Set interval to fetch chat data every 10 seconds
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (namelogin && userClickNow?.namelogin) {
@@ -65,7 +66,13 @@ const MessengerComponent = () => {
         )
           .then((response) => response.json())
           .then((data) => {
-            setContextUserLoginAndUserClicked(data);
+            // Kiểm tra nếu dữ liệu mới khác với dữ liệu cũ
+            if (
+              JSON.stringify(data) !==
+              JSON.stringify(contextUserLoginAndUserClicked)
+            ) {
+              setContextUserLoginAndUserClicked(data);
+            }
           })
           .catch((error) => {
             console.error("Error fetching chat data:", error);
@@ -75,7 +82,12 @@ const MessengerComponent = () => {
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);
-  }, [namelogin, userClickNow, setContextUserLoginAndUserClicked]);
+  }, [
+    namelogin,
+    userClickNow,
+    contextUserLoginAndUserClicked,
+    setContextUserLoginAndUserClicked,
+  ]);
 
   // Tìm kiếm Chat Index từ DB thông qua tài khoản login và user chỉ định từ dashboard
   const chatIndex = findChatIndex(
