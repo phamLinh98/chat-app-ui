@@ -13,7 +13,6 @@ const MessengerComponent = () => {
   const { userId } = useParams();
 
   const scrollRef = useRef(null);
-  console.log(scrollRef);
   // State data for api/chat
   const [chatDataFromTableChat, setChatDataFromTableChat] = useState(null);
   // Custom Hook get info login user and who is chatting with her/him
