@@ -16,15 +16,16 @@ export const DashboardComponent = ({ loginUser }) => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
-  //Dữ liệu truyền xuống từ ItemContext xuống các component con 
+  //Dữ liệu truyền xuống từ ItemContext xuống các component con
   const dataGetFromItemContext = useContext(ItemContext);
 
   // Lấy thông tin login user đăng nhập từ ItemContext
-  const userLoginSuccessName = dataGetFromItemContext.userLoginSuccess.namelogin;
+  const userLoginSuccessName =
+    dataGetFromItemContext.userLoginSuccess.namelogin;
   const userLoginSuccessAvatar = dataGetFromItemContext.userLoginSuccess.avatar;
 
   //Lấy toàn bộ nội dung các cuộc trò chuyện hiện tại trong hệ thống
-  const allChatContentsNow = dataGetFromItemContext.dataChat; 
+  const allChatContentsNow = dataGetFromItemContext.dataChat;
 
   //Lấy toàn bộ thông tin của toàn bộ user trong hệ thống
   const getDataUserInfoChatWithLoginUser = dataGetFromItemContext.dataDashboard;
@@ -36,28 +37,30 @@ export const DashboardComponent = ({ loginUser }) => {
     );
     return nameShow ? nameShow.nameshow : "null";
   };
-   
+
   // Từ toàn bộ các cuộc trò chuyện, lọc ra những cuộc trò chuyện chỉ của login user với những user khác
-  const chatContentOfLoginUserWithOther = allChatContentsNow.filter((conversation) =>
-    conversation.user.includes(loginUser.namelogin)
+  const chatContentOfLoginUserWithOther = allChatContentsNow.filter(
+    (conversation) => conversation.user.includes(loginUser.namelogin)
   );
 
   // Lấy thông tin user phục vụ mục đích hiển thị lên dashboard (user nameshow và avatar)
-  const userInfoRenderToDashboard = chatContentOfLoginUserWithOther.flatMap((conversation) => {
-    const userInfo = conversation.contents.find(
-      (content) => content.name !== loginUser.namelogin
-    );
+  const userInfoRenderToDashboard = chatContentOfLoginUserWithOther.flatMap(
+    (conversation) => {
+      const userInfo = conversation.contents.find(
+        (content) => content.name !== loginUser.namelogin
+      );
 
-    if (userInfo) {
-      return {
-        userId: userInfo.userIdSending, // userId để phục vụ router chuyển trang
-        name: getNameShowFromNameLogin(userInfo.name),
-        avatar: userInfo.avatar,
-        namelogin:userInfo.name
-      };
+      if (userInfo) {
+        return {
+          userId: userInfo.userIdSending, // userId để phục vụ router chuyển trang
+          name: getNameShowFromNameLogin(userInfo.name),
+          avatar: userInfo.avatar,
+          namelogin: userInfo.name,
+        };
+      }
+      return [];
     }
-    return [];
-  });
+  );
 
   //LOGOUT in Dashboard
   const solveLogout = () => {

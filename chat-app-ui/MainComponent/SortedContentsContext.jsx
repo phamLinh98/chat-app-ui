@@ -1,18 +1,23 @@
-import { createContext, useState } from 'react';
+/* eslint-disable react/prop-types */
+import { createContext, useState } from "react";
 
-// Tạo Context
 export const SortedContentsContext = createContext();
 
-// Tạo Provider cho Context
-// eslint-disable-next-line react/prop-types
 export const SortedContentsProvider = ({ children }) => {
-  const [indexfind, setIndex] = useState([]);
+  const [contextUserLoginAndUserClicked, setContextUserLoginAndUserClicked] =
+    useState(null);
+  const [indexfind, setIndex] = useState(null);
 
   return (
-    <SortedContentsContext.Provider value={{ indexfind, setIndex }}>
+    <SortedContentsContext.Provider
+      value={{
+        contextUserLoginAndUserClicked,
+        setContextUserLoginAndUserClicked,
+        indexfind,
+        setIndex,
+      }}
+    >
       {children}
     </SortedContentsContext.Provider>
   );
 };
-
-

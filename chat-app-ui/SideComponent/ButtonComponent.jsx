@@ -11,3 +11,9 @@ export const ButtonSignInComponent = ({ name, onClick }) => (
     {name}
   </Button>
 );
+
+export const ButtonAdd = ({onClick}) => {
+  <Button onClick={onClick} type={"dashed"}>
+     Add
+  </Button>
+}

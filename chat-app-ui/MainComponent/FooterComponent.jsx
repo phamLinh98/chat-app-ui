@@ -1,32 +1,47 @@
 import { Footer } from "antd/es/layout/layout";
-import InputComponent from "../SideComponent/InputComponent";
 import { useParams } from "react-router-dom";
-import AvatarComponent from "../SideComponent/AvatarComponent";
-import CryptoJS from "crypto-js";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
-import { get, postChatData } from "../utils/api";
-import useSWR from "swr";
-const secretKey = import.meta.env.VITE_DOMAIN;
+import { getChatDoubleUser, postChatData } from "../utils/api";
+import { useGetUserFromDashboard } from "./GetUserFromDashboard";
+import InputComponent from "../SideComponent/InputComponent";
 
 export const FooterComponent = () => {
   const { userId } = useParams();
-  const encryptedAuth = localStorage.getItem("userData");
-  const decryptedAuth = CryptoJS.AES.decrypt(encryptedAuth, secretKey).toString(
-    CryptoJS.enc.Utf8
-  );
-  const loginUserInfo = JSON.parse(decryptedAuth);
-  const { name, avatar, namelogin } = loginUserInfo;
+  const { userClickNow, namelogin, avatar } = useGetUserFromDashboard(userId);
   const { indexfind } = useContext(SortedContentsContext);
-  const [content, setContent] = useState(""); // State để lưu nội dung nhập
-  const {data, mutate} = useSWR("/api/chat", get);
-  const handleInputChange = (value) => {
-    setContent(value); // Cập nhật giá trị nhập
-  };
+  const [content, setContent] = useState("");
+
+  // eslint-disable-next-line no-unused-vars
+  const { contextUserLoginAndUserClicked, setContextUserLoginAndUserClicked } =
+    useContext(SortedContentsContext);
+
+  useEffect(() => {
+    const fetchDataChat = async () => {
+      // Kiểm tra xem namelogin và userClickNow.namelogin có hợp lệ hay không
+      if (namelogin && userClickNow?.namelogin) {
+        const responseDataChat = await getChatDoubleUser(
+          "/api/get-chat-double-user",
+          namelogin,
+          userClickNow.namelogin
+        );
+
+        if (responseDataChat) {
+          const data = await responseDataChat.json();
+          setContextUserLoginAndUserClicked(data);
+        } else {
+          console.error("Failed to fetch chat data.");
+        }
+      } else {
+        console.error("Invalid login details.");
+      }
+    };
+
+    fetchDataChat();
+  }, [namelogin, setContextUserLoginAndUserClicked, userClickNow.namelogin]);
 
   const handleSubmit = async () => {
-    if (!content.trim()) return; // Không gửi nếu nội dung trống
-
+    if (!content.trim()) return;
     const newData = {
       id: indexfind,
       avatar: avatar,
@@ -35,15 +50,20 @@ export const FooterComponent = () => {
     };
 
     try {
-      await mutate(postChatData("/api/add-chat", newData),{
-        optimisticData:[...data, newData ],
-        rollbackOnError:true,
-        populateCache:true,
-        revalidate:false
-      }); // Gọi API để submit tin nhắn
-      setContent(""); // Clear input after successful submission
+      const { updatedContents = null } = await postChatData(
+        "/api/add-chat",
+        newData
+      );
+      // Kiểm tra xem response có đúng định dạng không
+      if (updatedContents) {
+        // Hoặc điều kiện kiểm tra khác
+        setContextUserLoginAndUserClicked({ contents: updatedContents });
+        setContent("");
+      } else {
+        console.error("Invalid response format", updatedContents);
+      }
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.log("error :>> ", error);
     }
   };
 
@@ -51,17 +71,10 @@ export const FooterComponent = () => {
     <Footer style={{ textAlign: "center" }}>
       {userId !== undefined ? (
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-          <AvatarComponent
-            color="red"
-            icon={name.charAt(0)}
-            size="14"
-            src={avatar}
-          />
           <InputComponent
-            value={content} // Truyền giá trị của input xuống InputComponent
-            placeholder="Hãy nhập tin nhắn"
-            onInputChange={handleInputChange}
-            onSubmit={handleSubmit} // Submit khi người dùng nhấn "Enter" hoặc click "Gửi"
+            content={content} 
+            onChange={setContent} 
+            onClickButtonSubmit={handleSubmit}
           />
         </div>
       ) : (

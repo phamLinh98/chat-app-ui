@@ -3,12 +3,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { Layout } from "antd";
 import { DashboardComponent } from "./DashboardComponent";
 import { HeaderComponent } from "./HeaderComponent";
-import { FooterComponent } from "./FooterComponent";
 import { Outlet } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import SpinComponent from "../SideComponent/SpinComponent";
 import { SortedContentsProvider } from "./SortedContentsContext";
 import { get, getDataFollowNameLogin } from "../utils/api";
+import { FooterComponent } from "./FooterComponent";
 const { Sider } = Layout;
 const secretKey = import.meta.env.VITE_DOMAIN;
 
@@ -28,7 +28,7 @@ export const LayoutComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseDashboard = await get("/api/info")
+        const responseDashboard = await get("/api/info");
         const data = await responseDashboard.json();
         setDataDashboard(data);
       } catch (error) {
@@ -39,11 +39,12 @@ export const LayoutComponent = () => {
     fetchData();
   }, []);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseChat = await getDataFollowNameLogin("/api/chat-follow-namelogin");
+        const responseChat = await getDataFollowNameLogin(
+          "/api/chat-follow-namelogin"
+        );
         const data = await responseChat.json();
         setDataChat(data);
       } catch (error) {
@@ -52,8 +53,6 @@ export const LayoutComponent = () => {
     };
     fetchData();
   }, []);
-
-
 
   if (!dataDashboard || !dataChat)
     return (
@@ -81,6 +80,7 @@ export const LayoutComponent = () => {
           <Layout>
             <HeaderComponent loginUser={userLoginSuccess} />
             <Outlet />
+            <FooterComponent />
           </Layout>
         </Layout>
       </SortedContentsProvider>

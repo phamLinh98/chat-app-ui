@@ -1,17 +1,25 @@
-import { Input } from "antd";
-const { Search } = Input;
+import { Button, Input, Space } from "antd";
 
 // eslint-disable-next-line react/prop-types
-const InputComponent = ({ placeholder, value, onInputChange, onSubmit }) => {
+const InputComponent = ({ onClickButtonSubmit, content, onChange }) => {
   return (
-    <Search
-      placeholder={placeholder}
-      value={value} // Nhận giá trị từ prop `value`
-      enterButton="Gửi"
-      size="large"
-      onChange={(e) => onInputChange(e.target.value)} // Update parent state on input change
-      onSearch={onSubmit} // Trigger submission on button click or enter press
-    />
+    <>
+      <Space.Compact
+        style={{
+          width: "100%",
+        }}
+      >
+        <Input
+          placeholder="Input some thing..."
+          value={content}
+          onChange={(e) => onChange(e.target.value)} 
+          onPressEnter={onClickButtonSubmit}
+        />
+        <Button type="primary" onClick={onClickButtonSubmit}>
+          Send
+        </Button>
+      </Space.Compact>
+    </>
   );
 };
 
