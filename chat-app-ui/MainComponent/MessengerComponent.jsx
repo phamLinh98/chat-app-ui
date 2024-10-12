@@ -4,13 +4,16 @@ import { useParams } from "react-router-dom";
 import { SmallAvatarComponent } from "../SideComponent/AvatarComponent";
 import { get, getChatDoubleUser } from "../utils/api";
 import { findChatIndex } from "../utils/findIndexUser";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SortedContentsContext } from "./SortedContentsContext";
 import { useGetUserFromDashboard } from "./GetUserFromDashboard";
 
 const MessengerComponent = () => {
   // Get userId from URL
   const { userId } = useParams();
+
+  const scrollRef = useRef(null);
+  console.log(scrollRef);
   // State data for api/chat
   const [chatDataFromTableChat, setChatDataFromTableChat] = useState(null);
   // Custom Hook get info login user and who is chatting with her/him
@@ -30,6 +33,13 @@ const MessengerComponent = () => {
   // contextUserLoginAndUserClicked is chatting content of login user and user clicked
   const { contextUserLoginAndUserClicked, setContextUserLoginAndUserClicked } =
     useContext(SortedContentsContext);
+
+  // Khi có cuộc trò chuyện mới tự động cuộn xuống dưới cùng
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [contextUserLoginAndUserClicked]); // Chạy effect khi có nội dung mới
 
   useEffect(() => {
     const fetchDataChat = async () => {
@@ -55,7 +65,7 @@ const MessengerComponent = () => {
     fetchDataChat();
   }, [namelogin, setContextUserLoginAndUserClicked, userClickNow.namelogin]);
 
-  // Set interval to fetch chat data every 10 seconds
+  // Chạy update lại nội dung trò chuyện sau mỗi 10 giây
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (namelogin && userClickNow?.namelogin) {
@@ -110,52 +120,53 @@ const MessengerComponent = () => {
   }
 
   return (
-    <>
+    <div
+      ref={scrollRef}
+      className="messenger-scroll"
+      style={{ maxHeight: "700px", overflowY: "auto", paddingRight: "10px" }}
+    >
       {contextUserLoginAndUserClicked.contents.map((message) => {
-        // thêm index vào đây để tránh cảnh báo
         const isReceiver = message.name === namelogin;
         const isSender = message.name === userClickNow.namelogin;
         if (!isSender && !isReceiver) return null;
         return (
-          <>
-            <Row key={message.id} justify={isSender ? "start" : "end"}>
-              <Col span={6}>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "6px",
-                    justifyContent: isSender ? "flex-start" : "flex-end",
-                  }}
-                >
-                  {isReceiver && (
-                    <>
-                      <AlertComponent message={message.content} type="error" />
-                      <SmallAvatarComponent
-                        size={18}
-                        color="red"
-                        icon={namelogin.charAt(0)}
-                        src={avatar}
-                      />
-                    </>
-                  )}
-                  {isSender && (
-                    <>
-                      <SmallAvatarComponent
-                        size={18}
-                        icon={userClickNow.nameshow.charAt(0)}
-                        color="orange"
-                        src={userClickNow.avatar}
-                      />
-                      <AlertComponent message={message.content} type="info" />
-                    </>
-                  )}
-                </div>
-              </Col>
-            </Row>
-          </>
+          <Row key={message.id} justify={isSender ? "start" : "end"}>
+            <Col span={6}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "6px",
+                  justifyContent: isSender ? "flex-start" : "flex-end",
+                }}
+              >
+                {isReceiver && (
+                  <>
+                    <AlertComponent message={message.content} type="error" />
+                    <SmallAvatarComponent
+                      size={18}
+                      color="red"
+                      icon={namelogin.charAt(0)}
+                      src={avatar}
+                    />
+                  </>
+                )}
+                {isSender && (
+                  <>
+                    <SmallAvatarComponent
+                      size={18}
+                      icon={userClickNow.nameshow.charAt(0)}
+                      color="orange"
+                      src={userClickNow.avatar}
+                    />
+                    <AlertComponent message={message.content} type="info" />
+                  </>
+                )}
+              </div>
+            </Col>
+          </Row>
         );
       })}
-    </>
+    </div>
   );
 };
 export default MessengerComponent;
