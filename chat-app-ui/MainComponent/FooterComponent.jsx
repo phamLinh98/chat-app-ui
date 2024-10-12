@@ -40,12 +40,14 @@ export const FooterComponent = () => {
     fetchDataChat();
   }, [namelogin, setContextUserLoginAndUserClicked, userClickNow.namelogin]);
 
+  let autoIncrementKey = 0;
   const handleSubmit = async () => {
     if (!content.trim()) return;
     const newData = {
       id: indexfind,
       avatar: avatar,
       name: namelogin,
+      key: autoIncrementKey + 1,
       content: content,
     };
 

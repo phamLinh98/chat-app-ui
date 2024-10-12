@@ -129,7 +129,7 @@ const MessengerComponent = () => {
         const isSender = message.name === userClickNow.namelogin;
         if (!isSender && !isReceiver) return null;
         return (
-          <Row key={message.id} justify={isSender ? "start" : "end"}>
+          <Row key={message.key} justify={isSender ? "start" : "end"}>
             <Col span={6}>
               <div
                 style={{
