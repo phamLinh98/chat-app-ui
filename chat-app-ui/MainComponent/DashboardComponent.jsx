@@ -4,13 +4,15 @@ import AvatarComponent from "../SideComponent/AvatarComponent";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   LogoutOutlined,
-  MessageOutlined,
   SettingOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
 import SubMenu from "antd/es/menu/SubMenu";
 import { useContext } from "react";
 import { ItemContext } from "./LayoutComponent";
+import { LiaFacebookMessenger } from "react-icons/lia";
+import { FaList } from "react-icons/fa";
+import { SortedContentsContext } from "./SortedContentsContext";
 
 export const DashboardComponent = ({ loginUser }) => {
   const { userId } = useParams();
@@ -74,6 +76,8 @@ export const DashboardComponent = ({ loginUser }) => {
     }
   };
 
+  const { openModal } = useContext(SortedContentsContext);
+
   return (
     <>
       <Menu
@@ -83,10 +87,28 @@ export const DashboardComponent = ({ loginUser }) => {
         mode="inline"
         selectedKeys={[userId]} // cái này để chỉ rõ menu nào đang được chọn , hover ko lq route
       >
+        <Menu
+          theme="dark"
+          mode="inline"
+          onClick={openModal}
+          style={{ alignItems: "center" }}
+          items={[
+            {
+              key: "1",
+              label: "New Message",
+              icon: <LiaFacebookMessenger style={{ fontSize: "20px" }} />,
+              style: {
+                backgroundColor: "#FFA500",
+                color: "#ffffff",
+              },
+            },
+          ]}
+        />
+
         <SubMenu
           key="sub1"
-          icon={<MessageOutlined />}
-          title="Messenger"
+          icon={<FaList />}
+          title="List Messages"
           style={{ alignItems: "center" }}
         >
           {userInfoRenderToDashboard.map((user) => (

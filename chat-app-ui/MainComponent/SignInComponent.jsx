@@ -3,7 +3,6 @@ import { Avatar, Input, Modal, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 import { PiWarningCircleBold } from "react-icons/pi";
 import { GrStatusGood } from "react-icons/gr";
-// import { UserOutlined } from "@ant-design/icons";
 export const SiginInComponent = () => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();

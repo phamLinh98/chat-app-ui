@@ -9,12 +9,11 @@ import InputComponent from "../SideComponent/InputComponent";
 export const FooterComponent = () => {
   const { userId } = useParams();
   const { userClickNow, namelogin, avatar } = useGetUserFromDashboard(userId); // custom Hook get user info clicked
-  const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState("");
 
-  // eslint-disable-next-line no-unused-vars
-  const { contextUserLoginAndUserClicked, setContextUserLoginAndUserClicked } =
-    useContext(SortedContentsContext);
+  const { indexfind, setContextUserLoginAndUserClicked } = useContext(
+    SortedContentsContext
+  );
 
   useEffect(() => {
     const fetchDataChat = async () => {
@@ -50,7 +49,7 @@ export const FooterComponent = () => {
       name: namelogin,
       key: autoIncrementKey + 1,
       content: content,
-      userClick: userClickNow.namelogin
+      userClick: userClickNow.namelogin,
     };
 
     try {
@@ -76,8 +75,8 @@ export const FooterComponent = () => {
       {userId !== undefined ? (
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
           <InputComponent
-            content={content} 
-            onChange={setContent} 
+            content={content}
+            onChange={setContent}
             onClickButtonSubmit={handleSubmit}
           />
         </div>

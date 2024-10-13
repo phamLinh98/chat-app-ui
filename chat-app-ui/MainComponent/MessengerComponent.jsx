@@ -30,8 +30,11 @@ const MessengerComponent = () => {
 
   // update contextUserLoginAndUserClicked to SortComponetConnext for any other component can connect or update to contextUserLoginAndUserClicked
   // contextUserLoginAndUserClicked is chatting content of login user and user clicked
-  const { contextUserLoginAndUserClicked, setContextUserLoginAndUserClicked } =
-    useContext(SortedContentsContext);
+  const {
+    setIndex,
+    contextUserLoginAndUserClicked,
+    setContextUserLoginAndUserClicked,
+  } = useContext(SortedContentsContext);
 
   // Khi có cuộc trò chuyện mới tự động cuộn xuống dưới cùng
   useEffect(() => {
@@ -104,8 +107,6 @@ const MessengerComponent = () => {
     namelogin,
     userClickNow.namelogin
   );
-  // When login use wanna change user clicked in dashboard , this us get that user index
-  const { setIndex } = useContext(SortedContentsContext);
 
   useEffect(() => {
     if (chatIndex) {
@@ -119,58 +120,63 @@ const MessengerComponent = () => {
   }
 
   return (
-    <div
-      ref={scrollRef}
-      className="messenger-scroll"
-      style={{ maxHeight: "700px", overflowY: "auto", paddingRight: "10px" }}
-    >
-      {contextUserLoginAndUserClicked.contents
-        ? contextUserLoginAndUserClicked.contents.map((message) => {
-            const isReceiver = message.name === namelogin;
-            const isSender = message.name === userClickNow.namelogin;
-            if (!isSender && !isReceiver) return null;
-            return (
-              <Row key={message.key} justify={isSender ? "start" : "end"}>
-                <Col span={6}>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "6px",
-                      justifyContent: isSender ? "flex-start" : "flex-end",
-                    }}
-                  >
-                    {isReceiver && message.content && (
-                      <>
-                        <AlertComponent
-                          message={message.content}
-                          type="error"
-                        />
-                        <SmallAvatarComponent
-                          size={18}
-                          color="red"
-                          icon={namelogin.charAt(0)}
-                          src={avatar}
-                        />
-                      </>
-                    )}
-                    {isSender && message.content && (
-                      <>
-                        <SmallAvatarComponent
-                          size={18}
-                          icon={userClickNow.nameshow.charAt(0)}
-                          color="orange"
-                          src={userClickNow.avatar}
-                        />
-                        <AlertComponent message={message.content} type="info" />
-                      </>
-                    )}
-                  </div>
-                </Col>
-              </Row>
-            );
-          })
-        : "Các bạn chưa có cuộc trò chuyện nào"}
-    </div>
+    <>
+      <div
+        ref={scrollRef}
+        className="messenger-scroll"
+        style={{ maxHeight: "700px", overflowY: "auto", paddingRight: "10px" }}
+      >
+        {contextUserLoginAndUserClicked.contents
+          ? contextUserLoginAndUserClicked.contents.map((message) => {
+              const isReceiver = message.name === namelogin;
+              const isSender = message.name === userClickNow.namelogin;
+              if (!isSender && !isReceiver) return null;
+              return (
+                <Row key={message.key} justify={isSender ? "start" : "end"}>
+                  <Col span={6}>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "6px",
+                        justifyContent: isSender ? "flex-start" : "flex-end",
+                      }}
+                    >
+                      {isReceiver && message.content && (
+                        <>
+                          <AlertComponent
+                            message={message.content}
+                            type="error"
+                          />
+                          <SmallAvatarComponent
+                            size={18}
+                            color="red"
+                            icon={namelogin.charAt(0)}
+                            src={avatar}
+                          />
+                        </>
+                      )}
+                      {isSender && message.content && (
+                        <>
+                          <SmallAvatarComponent
+                            size={18}
+                            icon={userClickNow.nameshow.charAt(0)}
+                            color="orange"
+                            src={userClickNow.avatar}
+                          />
+                          <AlertComponent
+                            message={message.content}
+                            type="info"
+                          />
+                        </>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+              );
+            })
+          : "Các bạn chưa có cuộc trò chuyện nào"}
+      </div>
+    </>
   );
 };
 export default MessengerComponent;

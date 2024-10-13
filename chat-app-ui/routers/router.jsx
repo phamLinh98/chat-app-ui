@@ -13,7 +13,7 @@ export const rootConfig = [
   },
   {
     path: "/signin",
-    element: <SiginInComponent/>
+    element: <SiginInComponent />,
   },
   {
     path: "/",

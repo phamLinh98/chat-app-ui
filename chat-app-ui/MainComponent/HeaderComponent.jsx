@@ -16,7 +16,6 @@ export const HeaderComponent = ({ loginUser }) => {
   const data = useContext(ItemContext);
   const getDataFromUserList = data.dataDashboard;
   const dataChat = data.dataChat;
-  const userLoginName = data.userLoginSuccess.name;
 
   const getNameShowFromNameLogin = (namelogin) => {
     const nameShow = getDataFromUserList.find(
@@ -45,10 +44,10 @@ export const HeaderComponent = ({ loginUser }) => {
     const user = userInfoListAfterFlat.find(
       (user) => String(user.userId) === String(userId)
     );
-    return user ?{ name: user.name, avatar:user.avatar} : "";
+    return user ? { name: user.name, avatar: user.avatar } : "";
   };
   // Tìm tên user dựa trên userId
-  const {name, avatar} = getUserNameById(userId);
+  const { name, avatar } = getUserNameById(userId);
   const style = {
     width: "10px",
     height: "10px",
@@ -73,7 +72,7 @@ export const HeaderComponent = ({ loginUser }) => {
       >
         <Breadcrumb.Item>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {name ? (
+            {name && (
               <>
                 <div
                   style={{
@@ -94,16 +93,6 @@ export const HeaderComponent = ({ loginUser }) => {
                   </p>
                 </div>
               </>
-            ) : (
-              <p style={{ margin: "0 0 0 4px" }}>
-                {userId !== undefined ? (
-                  <b>Không tìm thấy tin nhắn người dùng có mã : {userId}</b>
-                ) : (
-                  <h3 style={{ marginBottom: "4px" }}>
-                    Welcome {userLoginName} !
-                  </h3>
-                )}
-              </p>
             )}
           </div>
         </Breadcrumb.Item>
