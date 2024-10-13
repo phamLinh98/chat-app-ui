@@ -8,7 +8,7 @@ import InputComponent from "../SideComponent/InputComponent";
 
 export const FooterComponent = () => {
   const { userId } = useParams();
-  const { userClickNow, namelogin, avatar } = useGetUserFromDashboard(userId);
+  const { userClickNow, namelogin, avatar } = useGetUserFromDashboard(userId); // custom Hook get user info clicked
   const { indexfind } = useContext(SortedContentsContext);
   const [content, setContent] = useState("");
 
@@ -41,6 +41,7 @@ export const FooterComponent = () => {
   }, [namelogin, setContextUserLoginAndUserClicked, userClickNow.namelogin]);
 
   let autoIncrementKey = 0;
+
   const handleSubmit = async () => {
     if (!content.trim()) return;
     const newData = {
@@ -49,6 +50,7 @@ export const FooterComponent = () => {
       name: namelogin,
       key: autoIncrementKey + 1,
       content: content,
+      userClick: userClickNow.namelogin
     };
 
     try {

@@ -124,47 +124,52 @@ const MessengerComponent = () => {
       className="messenger-scroll"
       style={{ maxHeight: "700px", overflowY: "auto", paddingRight: "10px" }}
     >
-      {contextUserLoginAndUserClicked.contents.map((message) => {
-        const isReceiver = message.name === namelogin;
-        const isSender = message.name === userClickNow.namelogin;
-        if (!isSender && !isReceiver) return null;
-        return (
-          <Row key={message.key} justify={isSender ? "start" : "end"}>
-            <Col span={6}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "6px",
-                  justifyContent: isSender ? "flex-start" : "flex-end",
-                }}
-              >
-                {isReceiver && (
-                  <>
-                    <AlertComponent message={message.content} type="error" />
-                    <SmallAvatarComponent
-                      size={18}
-                      color="red"
-                      icon={namelogin.charAt(0)}
-                      src={avatar}
-                    />
-                  </>
-                )}
-                {isSender && (
-                  <>
-                    <SmallAvatarComponent
-                      size={18}
-                      icon={userClickNow.nameshow.charAt(0)}
-                      color="orange"
-                      src={userClickNow.avatar}
-                    />
-                    <AlertComponent message={message.content} type="info" />
-                  </>
-                )}
-              </div>
-            </Col>
-          </Row>
-        );
-      })}
+      {contextUserLoginAndUserClicked.contents
+        ? contextUserLoginAndUserClicked.contents.map((message) => {
+            const isReceiver = message.name === namelogin;
+            const isSender = message.name === userClickNow.namelogin;
+            if (!isSender && !isReceiver) return null;
+            return (
+              <Row key={message.key} justify={isSender ? "start" : "end"}>
+                <Col span={6}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "6px",
+                      justifyContent: isSender ? "flex-start" : "flex-end",
+                    }}
+                  >
+                    {isReceiver && message.content && (
+                      <>
+                        <AlertComponent
+                          message={message.content}
+                          type="error"
+                        />
+                        <SmallAvatarComponent
+                          size={18}
+                          color="red"
+                          icon={namelogin.charAt(0)}
+                          src={avatar}
+                        />
+                      </>
+                    )}
+                    {isSender && message.content && (
+                      <>
+                        <SmallAvatarComponent
+                          size={18}
+                          icon={userClickNow.nameshow.charAt(0)}
+                          color="orange"
+                          src={userClickNow.avatar}
+                        />
+                        <AlertComponent message={message.content} type="info" />
+                      </>
+                    )}
+                  </div>
+                </Col>
+              </Row>
+            );
+          })
+        : "Các bạn chưa có cuộc trò chuyện nào"}
     </div>
   );
 };
