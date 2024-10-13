@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
-import { Table } from "antd";
+import { Table, Tag } from "antd";
 import { get } from "../utils/api";
 const columns = [
   {
-    title: "Name",
+    title: (
+      <Tag color="volcano" style={{ fontSize: "15px" }}>
+        Name
+      </Tag>
+    ),
     dataIndex: "nameshow",
   },
   {
-    title: "Department",
+    title: (
+      <Tag color="green" style={{ fontSize: "15px" }}>
+        Department
+      </Tag>
+    ),
     dataIndex: "department",
   },
   {
-    title: "Position",
+    title: (
+      <Tag color="purple" style={{ fontSize: "15px" }}>
+        Job
+      </Tag>
+    ),
     dataIndex: "employeer",
   },
 ];
@@ -41,7 +53,7 @@ const TableUserComponent = () => {
 
   // Kiểm tra nếu data là null hoặc undefined trước khi sử dụng
   if (!data) {
-    return <div>Loading...</div>; // Hoặc xử lý trạng thái loading
+    return <div>Loading...</div>;
   }
 
   const dataSource = data.map((item) => ({
@@ -93,6 +105,7 @@ const TableUserComponent = () => {
       rowSelection={rowSelection}
       columns={columns}
       dataSource={dataSource}
+      selectedRowKeys={selectedRowKeys}
     />
   );
 };

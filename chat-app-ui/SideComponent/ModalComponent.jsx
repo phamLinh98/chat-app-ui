@@ -46,8 +46,11 @@ const ModalComponent = ({ open, onClose }) => {
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <Input placeholder="Basic usage" />
-            <TextArea rows={4} />
+            <Input
+              placeholder="Người dùng đang được chọn Izuka"
+              value={"Demo"}
+            />
+            <TextArea rows={4} placeholder="Nhâp nội dung gửi Izuka" />
           </div>
         ) : (
           <TableUserComponent />
