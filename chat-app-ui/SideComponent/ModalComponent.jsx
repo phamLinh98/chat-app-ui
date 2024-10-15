@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Modal, Button, Space, Input, Table, Tag } from "antd";
+import { Modal, Button, Input, Table, Tag } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { get } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   {
@@ -35,6 +36,7 @@ const ModalComponent = ({ open, onClose }) => {
   const [showInputs, setShowInputs] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedUserKeys, setSelectedUserKeys] = useState([]); // State to store selected keys for the input
+  const navigate = useNavigate();
 
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -81,13 +83,12 @@ const ModalComponent = ({ open, onClose }) => {
     employeer: item.job,
   }));
 
+  const navigateAfterAddSuccess = () => {
+    onClose(), navigate(`chat/${selectedRowKeys}`);
+  };
+
   return (
     <>
-      <Space>
-        <Button type="primary" onClick={onClose}>
-          Open Modal
-        </Button>
-      </Space>
       <Modal
         open={open}
         title="Mời chọn user để bắt đầu"
@@ -95,19 +96,24 @@ const ModalComponent = ({ open, onClose }) => {
         footer={[
           showInputs ? (
             <>
-              <Button type="primary" onClick={onClose}>
+              <Button type="primary" onClick={navigateAfterAddSuccess}>
                 Gửi
+              </Button>
+              <Button onClick={() => setShowInputs((pre) => !pre)}>
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                type="primary"
+                onClick={handleNext}
+                disabled={selectedRowKeys.length !== 1} // Disable if selectedRowKeys.length is not 1
+              >
+                Next
               </Button>
               <Button onClick={handleCancel}>Cancel</Button>
             </>
-          ) : (
-            <Button
-              type="primary"
-              onClick={handleNext}
-              disabled={selectedRowKeys.length !== 1} // Disable if selectedRowKeys.length is not 1
-            >
-              Next
-            </Button>
           ),
         ]}
       >

@@ -16,6 +16,7 @@ export const HeaderComponent = ({ loginUser }) => {
   const data = useContext(ItemContext);
   const getDataFromUserList = data.dataDashboard;
   const dataChat = data.dataChat;
+  const userLoginName = data.userLoginSuccess.name;
 
   const getNameShowFromNameLogin = (namelogin) => {
     const nameShow = getDataFromUserList.find(
@@ -72,7 +73,7 @@ export const HeaderComponent = ({ loginUser }) => {
       >
         <Breadcrumb.Item>
           <div style={{ display: "flex", alignItems: "center" }}>
-            {name && (
+            {name ? (
               <>
                 <div
                   style={{
@@ -93,6 +94,18 @@ export const HeaderComponent = ({ loginUser }) => {
                   </p>
                 </div>
               </>
+            ) : (
+              <p style={{ margin: "0 0 0 4px" }}>
+                {userId !== undefined ? (
+                  <b>
+                    Trong list Messenger người dùng : {userId} không tồn tại
+                  </b>
+                ) : (
+                  <h3 style={{ marginBottom: "4px" }}>
+                    Welcome {userLoginName} !
+                  </h3>
+                )}
+              </p>
             )}
           </div>
         </Breadcrumb.Item>
