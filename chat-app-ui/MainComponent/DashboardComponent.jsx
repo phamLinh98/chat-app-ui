@@ -106,7 +106,7 @@ export const DashboardComponent = ({ loginUser }) => {
           </div>
         ),
         style: {
-          paddingLeft: "25px"
+          paddingLeft: "25px", paddingBottom:"5px"
         },
         onClick: () => navigate(`/chat/${user.userId}`),
       })),
