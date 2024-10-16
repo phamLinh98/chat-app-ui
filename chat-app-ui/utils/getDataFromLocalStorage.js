@@ -10,7 +10,7 @@ export const getDataFromLocalStorage = () => {
   const loginUserInfo = JSON.parse(decryptedAuth);
 
   // get login info from local storage
-  const { namelogin, avatar } = loginUserInfo;
+  const { namelogin, avatar, id } = loginUserInfo;
 
-  return { namelogin, avatar };
+  return { namelogin, avatar, id };
 };

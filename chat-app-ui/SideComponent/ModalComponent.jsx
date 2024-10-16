@@ -4,6 +4,7 @@ import { Modal, Button, Input, Table, Tag } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { get } from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import { getDataFromLocalStorage } from "../utils/getDataFromLocalStorage";
 
 const columns = [
   {
@@ -83,6 +84,10 @@ const ModalComponent = ({ open, onClose }) => {
     employeer: item.job,
   }));
 
+  const { id } = getDataFromLocalStorage();
+
+  const listDataWithOutLoginUser = dataSource.filter((item) => item.key !== id);
+
   const navigateAfterAddSuccess = () => {
     onClose(), navigate(`chat/${selectedRowKeys}`);
   };
@@ -134,7 +139,7 @@ const ModalComponent = ({ open, onClose }) => {
               onChange: onSelectChange,
             }}
             columns={columns}
-            dataSource={dataSource}
+            dataSource={listDataWithOutLoginUser}
             pagination={{ pageSize: 5 }} // Set pagination to show a maximum of 5 records
           />
         )}

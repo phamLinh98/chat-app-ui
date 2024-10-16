@@ -58,6 +58,43 @@ export const HeaderComponent = ({ loginUser }) => {
     marginLeft: "5px",
   };
 
+  // Create breadcrumb items based on the user information
+  const breadcrumbItems = [
+    {
+      key: "home",
+      title: (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {name ? (
+            <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
+              <AvatarComponent
+                icon={name.charAt(0)}
+                size={10}
+                color={"orange"}
+                src={avatar}
+              />
+              <span style={{ margin: "0 3px 0 4px" }}>
+                <b>{name || "No Name"}</b>
+                <div style={style}></div>
+              </span>
+            </div>
+          ) : (
+            <span style={{ margin: "0 0 0 4px" }}>
+              {userId !== undefined ? (
+                <b>
+                  Trong list Messenger người dùng : {userId} không tồn tại
+                </b>
+              ) : (
+                <h3 style={{ marginBottom: "4px" }}>
+                  Welcome {userLoginName} !
+                </h3>
+              )}
+            </span>
+          )}
+        </div>
+      ),
+    },
+  ];
+
   return (
     <Header
       style={{
@@ -70,46 +107,8 @@ export const HeaderComponent = ({ loginUser }) => {
         style={{
           margin: "20px 0 0 18px",
         }}
-      >
-        <Breadcrumb.Item>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {name ? (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "2px",
-                  }}
-                >
-                  <AvatarComponent
-                    icon={name.charAt(0)}
-                    size={10}
-                    color={"orange"}
-                    src={avatar}
-                  />
-                  <p style={{ margin: "0 3px 0 4px" }}>
-                    <b>{name || "No Name"}</b>
-                    <div style={style}></div>
-                  </p>
-                </div>
-              </>
-            ) : (
-              <p style={{ margin: "0 0 0 4px" }}>
-                {userId !== undefined ? (
-                  <b>
-                    Trong list Messenger người dùng : {userId} không tồn tại
-                  </b>
-                ) : (
-                  <h3 style={{ marginBottom: "4px" }}>
-                    Welcome {userLoginName} !
-                  </h3>
-                )}
-              </p>
-            )}
-          </div>
-        </Breadcrumb.Item>
-      </Breadcrumb>
+        items={breadcrumbItems} // Use items array here
+      />
     </Header>
   );
 };

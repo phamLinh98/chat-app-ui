@@ -11,7 +11,7 @@ import { useGetUserFromDashboard } from "./GetUserFromDashboard";
 const MessengerComponent = () => {
   // Get userId from URL
   const { userId } = useParams();
-
+  // check khi add new messenger tự động cuộng xuống dưới cùng
   const scrollRef = useRef(null);
   // State data for api/chat
   const [chatDataFromTableChat, setChatDataFromTableChat] = useState(null);
@@ -45,7 +45,6 @@ const MessengerComponent = () => {
 
   useEffect(() => {
     const fetchDataChat = async () => {
-      // Kiểm tra xem namelogin và userClickNow.namelogin có hợp lệ hay không
       if (namelogin && userClickNow?.namelogin) {
         const responseDataChat = await getChatDoubleUser(
           "/api/get-chat-double-user",
@@ -115,8 +114,12 @@ const MessengerComponent = () => {
   }, [chatIndex, setIndex]);
 
   //Nếu data chưa được fetch thành công thì Loading...
-  if (!infoUserFromTableInfo || !contextUserLoginAndUserClicked) {
+  if (!infoUserFromTableInfo) {
     return <div>Loading...</div>;
+  }
+
+  if(!contextUserLoginAndUserClicked){
+    return <div>Không tìm thấy user này...</div>;
   }
 
   return (
