@@ -10,7 +10,7 @@ import {
 import { useContext } from "react";
 import { ItemContext } from "./LayoutComponent";
 import { LiaFacebookMessenger } from "react-icons/lia";
-import { FaList } from "react-icons/fa";
+import { FaGamepad, FaHome, FaList } from "react-icons/fa";
 import { SortedContentsContext } from "./SortedContentsContext";
 
 export const DashboardComponent = ({ loginUser }) => {
@@ -68,7 +68,27 @@ export const DashboardComponent = ({ loginUser }) => {
 
   const menuItems = [
     {
-      key: "newMessage",
+      key: "1",
+      label: "Homepage",
+      icon: <FaHome  style={{ fontSize: "20px" }} />,
+      onClick: () => navigate("/home"),
+      style: {
+        backgroundColor: "#FFA500",
+        color: "#ffffff",
+      },
+    },
+    {
+      key: "2",
+      label: "Game List",
+      icon: <FaGamepad   style={{ fontSize: "20px" }} />,
+      onClick: () => navigate("/game"),
+      style: {
+        backgroundColor: "#FFA500",
+        color: "#ffffff",
+      },
+    },
+    {
+      key: "3",
       label: "New Message",
       icon: <LiaFacebookMessenger style={{ fontSize: "20px" }} />,
       onClick: openModal,
@@ -78,7 +98,7 @@ export const DashboardComponent = ({ loginUser }) => {
       },
     },
     {
-      key: "listMessages",
+      key: "4",
       label: "List Messages",
       icon: <FaList />,
       children: userInfoRenderToDashboard.map((user) => ({
@@ -106,13 +126,14 @@ export const DashboardComponent = ({ loginUser }) => {
           </div>
         ),
         style: {
-          paddingLeft: "25px", paddingBottom:"5px"
+          paddingLeft: "25px",
+          paddingBottom: "5px",
         },
         onClick: () => navigate(`/chat/${user.userId}`),
       })),
     },
     {
-      key: "userMenu",
+      key: "5",
       label: (
         <p
           style={{

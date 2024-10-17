@@ -85,7 +85,7 @@ export const HeaderComponent = ({ loginUser }) => {
                 </b>
               ) : (
                 <h3 style={{ marginBottom: "4px" }}>
-                  Welcome {userLoginName} !
+                  Hôm nay bạn thế nào {userLoginName} ?
                 </h3>
               )}
             </span>

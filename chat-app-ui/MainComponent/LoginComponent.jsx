@@ -50,7 +50,7 @@ const LoginComponent = () => {
         secretKey
       ).toString();
       localStorage.setItem("userData", encryptedUserData);
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Login failed:", error);
       setLoading(false);
@@ -66,7 +66,7 @@ const LoginComponent = () => {
         secretKey
       ).toString(CryptoJS.enc.Utf8);
       if (decryptedAuth === "true") {
-        navigate("/");
+        navigate("/home");
       }
     }
   }, [navigate]);

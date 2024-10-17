@@ -5,6 +5,8 @@ import LoginComponent, {
 } from "../MainComponent/LoginComponent";
 import { SiginInComponent } from "../MainComponent/SignInComponent";
 import { LayoutComponent } from "../MainComponent/LayoutComponent";
+import { HomePageComponent } from "../MainComponent/HomePageComponent";
+import { GameComponent } from "../MainComponent/GameComponent";
 
 export const rootConfig = [
   {
@@ -26,6 +28,14 @@ export const rootConfig = [
       {
         path: "chat/:userId",
         element: <ContentComponent />,
+      },
+      {
+        path: "/home",
+        element: <HomePageComponent />,
+      },
+      {
+        path: "/game",
+        element: <GameComponent />,
       },
     ],
   },
