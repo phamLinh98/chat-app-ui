@@ -59,8 +59,6 @@ export const FooterComponent = () => {
       userIdSendingOther: userIdSendingOther,
     };
 
-    console.log("newData :>> ", newData);
-
     try {
       const { updatedContents = null } = await postChatData(
         "/api/add-chat",

@@ -117,8 +117,6 @@ const ModalComponent = ({ open, onClose }) => {
       userClick:userClick,
       userIdSendingOther:selectedRowKeys[0]
     };
-    console.log('newData :>> ', newData);
-
     try {
       const { updatedContents = null } = await postChatData(
         "/api/add-chat",
