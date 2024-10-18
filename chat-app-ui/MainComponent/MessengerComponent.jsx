@@ -107,8 +107,6 @@ const MessengerComponent = () => {
     userClickNow.namelogin
   );
 
-  console.log('chatIndex :>> ', chatIndex);
-
   useEffect(() => {
     if (chatIndex) {
       setIndex(chatIndex);

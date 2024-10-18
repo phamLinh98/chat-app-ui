@@ -5,6 +5,7 @@ import { SortedContentsContext } from "./SortedContentsContext";
 import { getChatDoubleUser, postChatData } from "../utils/api";
 import { useGetUserFromDashboard } from "./GetUserFromDashboard";
 import InputComponent from "../SideComponent/InputComponent";
+import { getIdFromNameLoginUser } from "../utils/findIdFromNamelogin";
 
 export const FooterComponent = () => {
   const { userId } = useParams();
@@ -43,14 +44,22 @@ export const FooterComponent = () => {
 
   const handleSubmit = async () => {
     if (!content.trim()) return;
+    const userIdSending = await getIdFromNameLoginUser(namelogin);
+    const userIdSendingOther = await getIdFromNameLoginUser(
+      userClickNow.namelogin
+    );
     const newData = {
       id: indexfind,
+      userIdSending: userIdSending,
       avatar: avatar,
       name: namelogin,
       key: autoIncrementKey + 1,
       content: content,
       userClick: userClickNow.namelogin,
+      userIdSendingOther: userIdSendingOther,
     };
+
+    console.log("newData :>> ", newData);
 
     try {
       const { updatedContents = null } = await postChatData(

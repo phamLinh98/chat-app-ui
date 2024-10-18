@@ -9,6 +9,7 @@ import { SortedContentsContext } from "../MainComponent/SortedContentsContext";
 import { useGetUserFromDashboard } from "../MainComponent/GetUserFromDashboard";
 import { findChatIndex } from "../utils/findIndexUser";
 import { findUserNameViaChatDataAndSendingId } from "../utils/findNameLoginViaChatDataAndSendingId";
+import { getNameLoginFromId } from './../utils/findNameLoginViaId';
 
 const columns = [
   {
@@ -45,6 +46,7 @@ const ModalComponent = ({ open, onClose }) => {
   const { userId } = useParams();
   const { userClickNow, namelogin, avatar } = useGetUserFromDashboard(userId); // custom Hook get user info clicked
   const [content, setContent] = useState("");
+  const { id } = getDataFromLocalStorage();
 
   const { indexfind, setContextUserLoginAndUserClicked, setIndex } = useContext(
     SortedContentsContext
@@ -103,14 +105,19 @@ const ModalComponent = ({ open, onClose }) => {
 
   const handleSubmit = async () => {
     if (!content.trim()) return;
+    const userClick = await getNameLoginFromId(selectedUserKeys);
+    console.log('userClick :>> ', userClick);
     const newData = {
       id: indexfind,
+      userIdSending: id,
       avatar: avatar,
       name: namelogin,
       key: autoIncrementKey + 1,
       content: content,
-      userClick: userClickNow.namelogin,
+      userClick:userClick,
+      userIdSendingOther:selectedUserKeys
     };
+    console.log('newData :>> ', newData);
 
     try {
       const { updatedContents = null } = await postChatData(
@@ -173,8 +180,6 @@ const ModalComponent = ({ open, onClose }) => {
     department: item.department,
     employeer: item.job,
   }));
-
-  const { id } = getDataFromLocalStorage();
 
   const listDataWithOutLoginUser = dataSource.filter((item) => item.key !== id);
 

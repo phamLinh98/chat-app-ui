@@ -49,6 +49,6 @@ export const useGetUserFromDashboard = (userId) => {
     infoUserFromTableInfo,
     userClickNow,
     namelogin,
-    avatar,
+    avatar
   };
 };
