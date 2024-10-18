@@ -106,7 +106,7 @@ const ModalComponent = ({ open, onClose }) => {
   const handleSubmit = async () => {
     if (!content.trim()) return;
     const userClick = await getNameLoginFromId(selectedUserKeys);
-    console.log('userClick :>> ', userClick);
+    console.log(selectedUserKeys);
     const newData = {
       id: indexfind,
       userIdSending: id,
@@ -115,7 +115,7 @@ const ModalComponent = ({ open, onClose }) => {
       key: autoIncrementKey + 1,
       content: content,
       userClick:userClick,
-      userIdSendingOther:selectedUserKeys
+      userIdSendingOther:selectedRowKeys[0]
     };
     console.log('newData :>> ', newData);
 
