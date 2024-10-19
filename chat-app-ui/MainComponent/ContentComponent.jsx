@@ -34,7 +34,7 @@ export const ContentComponent = () => {
               style={{
                 maxHeight: "700px", // Set a max height for the messenger area
                 overflowY: "auto", // Enable scrolling if content overflows
-                paddingRight: "10px", // To avoid content touching the scrollbar
+                paddingRight: "0px", // To avoid content touching the scrollbar
               }}
             >
               <MessengerComponent />
