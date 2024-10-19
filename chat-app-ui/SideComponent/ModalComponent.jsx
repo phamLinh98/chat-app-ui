@@ -9,7 +9,7 @@ import { SortedContentsContext } from "../MainComponent/SortedContentsContext";
 import { useGetUserFromDashboard } from "../MainComponent/GetUserFromDashboard";
 import { findChatIndex } from "../utils/findIndexUser";
 import { findUserNameViaChatDataAndSendingId } from "../utils/findNameLoginViaChatDataAndSendingId";
-import { getNameLoginFromId } from './../utils/findNameLoginViaId';
+//import { getNameLoginFromId } from './../utils/findNameLoginViaId';
 
 const columns = [
   {
@@ -105,8 +105,8 @@ const ModalComponent = ({ open, onClose }) => {
 
   const handleSubmit = async () => {
     if (!content.trim()) return;
-    const userClick = await getNameLoginFromId(selectedUserKeys);
-    console.log(selectedUserKeys);
+    //const userClick = await getNameLoginFromId(selectedUserKeys);
+    //console.log(selectedUserKeys);
     const newData = {
       id: indexfind,
       userIdSending: id,
@@ -114,8 +114,8 @@ const ModalComponent = ({ open, onClose }) => {
       name: namelogin,
       key: autoIncrementKey + 1,
       content: content,
-      userClick:userClick,
-      userIdSendingOther:selectedRowKeys[0]
+      // userClick:userClick,
+      // userIdSendingOther:selectedRowKeys[0]
     };
     try {
       const { updatedContents = null } = await postChatData(
