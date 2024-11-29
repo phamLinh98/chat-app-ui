@@ -1,7 +1,6 @@
 import { Col, Row } from "antd";
 import AlertComponent from "../SideComponent/AlertComponent";
 import { useParams } from "react-router-dom";
-import { SmallAvatarComponent } from "../SideComponent/AvatarComponent";
 import { get, getChatDoubleUser } from "../utils/api";
 import { findChatIndex } from "../utils/findIndexUser";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -16,7 +15,7 @@ const MessengerComponent = () => {
   // State data for api/chat
   const [chatDataFromTableChat, setChatDataFromTableChat] = useState(null);
   // Custom Hook get info login user and who is chatting with her/him
-  const { infoUserFromTableInfo, userClickNow, namelogin, avatar } =
+  const { infoUserFromTableInfo, userClickNow, namelogin } =
     useGetUserFromDashboard(userId);
 
   useEffect(() => {
@@ -150,22 +149,10 @@ const MessengerComponent = () => {
                             message={message.content}
                             type="error"
                           />
-                          <SmallAvatarComponent
-                            size={18}
-                            color="red"
-                            icon={namelogin.charAt(0)}
-                            src={avatar}
-                          />
                         </>
                       )}
                       {isSender && message.content && (
                         <>
-                          <SmallAvatarComponent
-                            size={18}
-                            icon={userClickNow.nameshow.charAt(0)}
-                            color="orange"
-                            src={userClickNow.avatar}
-                          />
                           <AlertComponent
                             message={message.content}
                             type="info"
